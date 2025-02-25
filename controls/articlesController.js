@@ -1,8 +1,24 @@
-import {getAllArticles, getArticleById, addArticle, deleteArticle, updateArticle} from "../Models/articles_db.js";
+import {getAllArticles, getArticleById, addArticle, deleteArticle, updateArticle, getAllArticlesOrderByDate, getAllArticlesOrderByAuthor} from "../Models/articles_db.js";
 
 const getAllArticlesCon = async (req, res) => {
     try {
         res.json(await getAllArticles());
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const getAllArticlesOrderByDateCon = async (req, res) => {
+    try {
+        res.json(await getAllArticlesOrderByDate());
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const getAllArticlesOrderByAuthorCon = async (req, res) => {
+    try {
+        res.json(await getAllArticlesOrderByAuthor());
     } catch (err) {
         console.log(err);
     }
@@ -49,4 +65,4 @@ const updateArticleCon = async (req, res) => {
     }
 }
 
-export {getAllArticlesCon, getArticleByIdCon, addArticleCon, deleteArticleCon, updateArticleCon};
+export {getAllArticlesCon, getArticleByIdCon, addArticleCon, deleteArticleCon, updateArticleCon, getAllArticlesOrderByDateCon, getAllArticlesOrderByAuthorCon};

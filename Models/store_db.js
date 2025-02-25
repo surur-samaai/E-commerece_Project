@@ -1,7 +1,7 @@
 import {pool} from "../config/config.js";
 
 const getAllProducts = async () => {
-    let [data] = await pool.query("SELECT * FROM store");
+    let [data] = await pool.query("SELECT * FROM store ORDER BY category DESC");
     return data
 }
 
@@ -24,8 +24,8 @@ const getProductsByCategory = async (category) => {
 }
 
 
-const addProduct = async (product_id,name,description,price,stock,supplier,category) => {
-    let [data] = await pool.query("INSERT INTO store (product_id,name,description,price,stock,supplier,category) VALUES (?,?,?,?,?,?,?)", [product_id,name,description,price,stock,supplier,category]);
+const addProduct = async (product_id,name,description,price,stock,supplier,category,image_url) => {
+    let [data] = await pool.query("INSERT INTO store (product_id,name,description,price,stock,supplier,category,image_url) VALUES (?,?,?,?,?,?,?,?)", [product_id,name,description,price,stock,supplier,category,image_url]);
 }
 
 
@@ -34,8 +34,8 @@ const deleteProduct = async (product_id) => {
 }
 
 
-const updateProduct = async (product_id,name,description,price,stock,supplier,category) => {
-    let [data] = await pool.query("UPDATE store SET name = ?, description = ?, price = ?, stock = ?, supplier = ?, category = ? WHERE product_id = ?", [name,description,price,stock,supplier,category,product_id]);
+const updateProduct = async (product_id,name,description,price,stock,supplier,category,image_url) => {
+    let [data] = await pool.query("UPDATE store SET name = ?, description = ?, price = ?, stock = ?, supplier = ?, category = ?, image_url = ? WHERE product_id = ?", [name,description,price,stock,supplier,category,image_url,product_id]);
 }
 
 

@@ -24,19 +24,22 @@ const getPersonalTrainersByExperience = async (experience) => {
 }
 
 
-const addPersonalTrainer = async (trainer_id,name,specialization,experience) => {
-    let [data] = await pool.query("INSERT INTO personal_trainers (trainer_id,name,specialization,experience) VALUES (?,?,?,?)", [trainer_id,name,specialization,experience]);
+const addPersonalTrainer = async (trainer_id,name,email,password,specialization,experience,image_url) => {
+    await pool.query("INSERT INTO personal_trainers (trainer_id,name,email,password,specialization,experience,image_url) VALUES (?,?,?,?,?,?,?)", [trainer_id,name,email,password,specialization,experience,image_url]);
 }
 
 
 const deletePersonalTrainer = async (trainer_id) => {
-    let [data] = await pool.query("DELETE FROM personal_trainers WHERE trainer_id = ?", [trainer_id]);
+    await pool.query("DELETE FROM personal_trainers WHERE trainer_id = ?", [trainer_id]);
 }
 
 
-const updatePersonalTrainer = async (trainer_id,name,specialization,experience) => {
-    let [data] = await pool.query("UPDATE personal_trainers SET name = ?, specialization = ?, experience = ? WHERE trainer_id = ?", [name,specialization,experience, trainer_id]);
+const updatePersonalTrainer = async (trainer_id,name,specialization,experience,image_url) => {
+    await pool.query("UPDATE personal_trainers SET name = ?, specialization = ?, experience = ?, image_url = ? WHERE trainer_id = ?", [name,specialization,experience,image_url, trainer_id]);
+}
+const updatePersonalTrainerEmailPassword = async (trainer_id,email,password) => {
+    await pool.query("UPDATE personal_trainers SET email = ?, password = ? WHERE trainer_id = ?", [email,password, trainer_id]);
 }
 
-export {getAllPersonalTrainers,getPersonalTrainerById,getPersonalTrainersBySpecialization,getPersonalTrainersByExperience,addPersonalTrainer,deletePersonalTrainer,updatePersonalTrainer}
+export {getAllPersonalTrainers,getPersonalTrainerById,getPersonalTrainersBySpecialization,getPersonalTrainersByExperience,addPersonalTrainer,deletePersonalTrainer,updatePersonalTrainer,updatePersonalTrainerEmailPassword};
 
