@@ -1,9 +1,19 @@
-import dotenv from "dotenv";
 import express from "express";
+import dotenv from "dotenv";
 import cors from "cors";
-import mysql from "mysql2/promise";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import workoutVideosRouter from "./routes/workoutVideosRouter.js"
+import articlesRouter from "./routes/articlesRouter.js"
+import adminRouter from "./routes/adminRouter.js"
+import orderItemsRouter from "./routes/orderItemsRouter.js"
+import ordersRouter from "./routes/ordersRouter.js"
+import locationsRouter from "./routes/locationsRouter.js"
+import storeRouter from "./routes/storeRouter.js"
+import usersRouter from "./routes/usersRouter.js"
+import subscriptionRouter from "./routes/subscriptionRouter.js"
+import bookingRouter from "./routes/bookingRouter.js"
+import personalTrainersRouter from "./routes/PersonalTrainersRouter.js"
 
 dotenv.config();
 
