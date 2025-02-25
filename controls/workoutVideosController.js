@@ -2,26 +2,35 @@ import {getAllWorkoutVideos, getWorkoutVideoById, getWorkoutVideosByCategory, ad
 
 const getAllWorkoutVideosCon = async (req, res) => {
     try {
-        res.json(await getAllWorkoutVideos());
+        res.status(200).json(await getAllWorkoutVideos());
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting all workout videos"
+        });
     }
 }
 
 const getWorkoutVideosByIdCon = async (req, res) => {
     try {
-        res.json(await getWorkoutVideoById(req.params.video_id));
+        res.status(200).json(await getWorkoutVideoById(req.params.video_id));
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting the workout video"
+        })
     }
 }
 
 
 const getWorkoutVideosByCategoryCon = async (req, res) => {
     try {
-        res.json(await getWorkoutVideosByCategory(req.params.category));
+        res.status(200).json(await getWorkoutVideosByCategory(req.params.category));
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting workout videos by category"
+        });
     }
 }
 
@@ -29,11 +38,14 @@ const getWorkoutVideosByCategoryCon = async (req, res) => {
 const addWorkoutVideoCon = async (req, res) => {
     try {
         await addWorkoutVideo(req.body);
-        res.json({
+        res.status(200).json({
             message:"Workout video added successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while adding the workout video"
+        })
     }
 }
 
@@ -41,11 +53,14 @@ const addWorkoutVideoCon = async (req, res) => {
 const deleteWorkoutVideoCon = async (req, res) => {
     try {
         await deleteWorkoutVideo(req.params.video_id);
-        res.json({
+        res.status(200).json({
             message:"Workout video deleted successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while deleting the workout video"
+        });
     }
 }
 
@@ -53,11 +68,14 @@ const deleteWorkoutVideoCon = async (req, res) => {
 const updateWorkoutVideoCon = async (req, res) => {
     try {
         await updateWorkoutVideo(req.params.video_id, req.body);
-        res.json({
+        res.status(200).json({
             message:"Workout video updated successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while updating the workout video"
+        });
     }
 }
 
