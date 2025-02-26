@@ -36,7 +36,7 @@ app.use("/subscription", subscriptionRouter);
 app.use("/bookings", bookingRouter);
 app.use("/personalTrainers", personalTrainersRouter);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3306;
 
 // Start the server
 app.listen(PORT, () => {

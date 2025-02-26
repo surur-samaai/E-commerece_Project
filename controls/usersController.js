@@ -1,8 +1,11 @@
-import {getAllUsers,getUsersBySubscription,getUserById,addUser,deleteUser,updateUserDetails,updateUserPassword,updateUserEmail} from "../Models/users_db.jss";
+import {getAllUsers,getUsersBySubscription,getUserById,addUser,deleteUser,updateUserDetails,updateUserPassword,updateUserEmail} from "../models/users_db.jss";
 
 const getAllUsersCon = async (req,res) => {
     try {
-        res.status(200).json(await getAllUsers());
+        await getAllUsers();
+        res.status(200).json({
+            message:"Users found successfully"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -13,7 +16,10 @@ const getAllUsersCon = async (req,res) => {
 
 const getUsersBySubscriptionCon = async (req,res) => {
     try {
-        res.status(200).json(await getUsersBySubscription(req.params.subscription_type));
+        await getUsersBySubscription(req.params.subscription_type);
+        res.status(200).json({
+            message:"Users found successfully"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -24,7 +30,10 @@ const getUsersBySubscriptionCon = async (req,res) => {
 
 const getUserByIdCon = async (req,res) => {
     try {
-        res.status(200).json(await getUserById(req.params.user_id));
+        await getUserById(req.params.user_id);
+        res.status(200).json({
+            message:"User found successfully"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -37,7 +46,7 @@ const getUserByIdCon = async (req,res) => {
 const addUserCon = async (req,res) => {
     let {user_id,name,email,password,address,subscription_type} = req.body
     try {
-       await addUser(user_id,name,email,password,address,subscription_type)
+       await addUser(user_id,name,email,password,address,subscription_type);
        res.status(200).json({
         message:"User added successfully"
     });

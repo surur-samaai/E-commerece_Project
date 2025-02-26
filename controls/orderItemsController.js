@@ -1,51 +1,72 @@
-import {getAllOrderItems, getOrderItemById, addOrderItem, deleteOrderItem, updateOrderItem} from "../Models/orderItems_db.js";
+import {getAllOrderItems, getOrderItemById, addOrderItem, deleteOrderItem, updateOrderItem} from "../models/orderItems_db.js";
 
 const getAllOrderItemsCon = async (req, res) => {
     try {
-        res.json(await getAllOrderItems());
+        await getAllOrderItems();
+        res.status(200).json({
+            message:"Successfully got all order items"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting all order items"
+        });
     }
 }
 
 const getOrderItemByIdCon = async (req, res) => {
     try {
-        res.json(await getOrderItemById(req.params.order_item_id));
+        await getOrderItemById(req.params.order_item_id);
+        res.status(200).json({
+            message:"Successfully got order item by id"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting order item by id"
+        });
     }
 }
 
 const addOrderItemCon = async (req, res) => {
     try {
         await addOrderItem(req.body);
-        res.json({
+        res.status(200).json({
             message:"Order item added successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while adding order item"
+        });
     }
 }
 
 const deleteOrderItemCon = async (req, res) => {
     try {
         await deleteOrderItem(req.params.order_item_id);
-        res.json({
+        res.status(200).json({
             message:"Order item deleted successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while deleting order item"
+        });
     }
 }
 
 const updateOrderItemCon = async (req, res) => {
     try {
         await updateOrderItem(req.params.order_item_id, req.body);
-        res.json({
+        res.status(200).json({
             message:"Order item updated successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while updating order item"
+        });
     }
 }
 

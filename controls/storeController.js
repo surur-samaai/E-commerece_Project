@@ -1,67 +1,98 @@
-import {getAllProducts, getProductById, getProductsBySupplier, getProductsByCategory, addProduct, deleteProduct, updateProduct} from "../Models/store_db.js";
+import {getAllProducts, getProductById, getProductsBySupplier, getProductsByCategory, addProduct, deleteProduct, updateProduct} from "../models/store_db.js";
 
 const getAllProductsCon = async (req, res) => {
     try {
-        res.json(await getAllProducts());
+        await getAllProducts();
+        res.status(200).json({
+            message:"Products found successfully"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting all products"
+        })
     }
 }
 
 const getProductsByIdCon = async (req, res) => {
     try {
-        res.json(await getProductById(req.params.product_id));
+        await getProductById(req.params.product_id);
+        res.status(200).json();
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting the product"
+        })
     }
 }
 
 const getProductsBySupplierCon = async (req, res) => {
     try {
-        res.json(await getProductsBySupplier(req.params.supplier));
+        await getProductsBySupplier(req.params.supplier);
+        res.status(200).json({
+            message:"Products found successfully"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting the products"
+        })
     }
 }
 
 const getProductsByCategoryCon = async (req, res) => {
     try {
-        res.json(await getProductsByCategory(req.params.category));
+        await getProductsByCategory(req.params.category)
+        res.status(200).json({
+            message:"Products found successfully"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting the products"
+        })
     }
 }
 
 const addProductCon = async (req, res) => {
     try {
         await addProduct(req.body);
-        res.json({
+        res.status(200).json({
             message:"Product added successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while adding the product"
+        })
     }
 }
 
 const deleteProductCon = async (req, res) => {
     try {
         await deleteProduct(req.params.product_id);
-        res.json({
+        res.status(200).json({
             message:"Product deleted successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while deleting the product"
+        })
     }
 }
 
 const updateProductCon = async (req, res) => {
     try {
         await updateProduct(req.params.product_id, req.body);
-        res.json({
+        res.status(200).json({
             message:"Product updated successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while updating the product"
+        })
     }
 }
 

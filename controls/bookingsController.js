@@ -1,91 +1,142 @@
-import {getAllBookings, getBookingById, getBookingsByDate, getBookingsByTime, getBookingsByStatus, getBookingByUserId, getBookingByTrainerId, addBooking, deleteBooking, updateBooking} from "../Models/bookings_db.js";
+import {getAllBookings, getBookingById, getBookingsByDate, getBookingsByTime, getBookingsByStatus, getBookingByUserId, getBookingByTrainerId, addBooking, deleteBooking, updateBooking} from "../models/bookings_db.js";
 
 const getAllBookingsCon = async (req, res) => {
     try {
-        res.json(await getAllBookings());
+        await getAllBookings();
+        res.status(200).json({
+        message:"Successfully got all bookings"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+        error:"There was an error while getting all bookings"
+        });
     }
 }
 
 const getBookingByIdCon = async (req, res) => {
     try {
-        res.json(await getBookingById(req.params.booking_id));
+        await getBookingById(req.params.booking_id);
+        res.status(200).json({
+            message:"Successfully got booking by id"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting booking by id"
+        });
     }
 }
 
 const getBookingsByDate = async (req, res) => {
     try {
-        res.json(await getBookingsByDate(req.params.date));
+        await getBookingsByDate(req.params.date);
+        res.status(200).json({
+            message:"Successfully got bookings by date"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting bookings by date"
+        });
     }
 }
 
 const getBookingsByTime = async (req, res) => {
     try {
-        res.json(await getBookingsByTime(req.params.time));
+        await getBookingsByTime(req.params.time);
+        res.status(200).json({
+            message:"Successfully got bookings by time"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting bookings by time"
+        });
     }
 }
 
 const getBookingsByStatus = async (req, res) => {
     try {
-        res.json(await getBookingsByStatus(req.params.status));
+        await getBookingsByStatus(req.params.status);
+        res.status(200).json({
+            message:"Successfully got bookings by status"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting bookings by status"
+        });
     }
 }
 
 const getBookingByUserIdCon = async (req, res) => {
     try {
-        res.json(await getBookingByUserId(req.params.user_id));
+        await getBookingByUserId(req.params.user_id);
+        res.status(200).json({
+            message:"Successfully got booking by user id"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting booking by user id"
+        });
     }
 }
 
 const getBookingByTrainerIdCon = async (req, res) => {
     try {
-        res.json(await getBookingByTrainerId(req.params.trainer_id));
+        await getBookingByTrainerId(req.params.trainer_id);
+        res.status(200).json({
+            message:"Successfully got booking by trainer id"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting booking by trainer id"
+        });
     }
 }
 
 const addBookingCon = async (req, res) => {
     try {
         await addBooking(req.body);
-        res.json({
+        res.status(200).json({
             message:"Booking added successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while adding booking"
+        });
     }
 }
 
 const deleteBookingCon = async (req, res) => {
     try {
         await deleteBooking(req.params.booking_id);
-        res.json({
+        res.status(200).json({
             message:"Booking deleted successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while deleting booking"
+        });
     }
 }
 
 const updateBookingCon = async (req, res) => {
     try {
         await updateBooking(req.params.booking_id, req.body);
-        res.json({
+        res.status(200).json({
             message:"Booking updated successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while updating booking"
+        });
     }
 }
 

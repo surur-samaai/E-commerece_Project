@@ -1,8 +1,11 @@
-import {getAllPersonalTrainers,getPersonalTrainerById,getPersonalTrainersBySpecialization,getPersonalTrainersByExperience,addPersonalTrainer,deletePersonalTrainer,updatePersonalTrainer,updatePersonalTrainerEmailPassword} from "../Models/personalTrainers_db.js";
+import {getAllPersonalTrainers,getPersonalTrainerById,getPersonalTrainersBySpecialization,getPersonalTrainersByExperience,addPersonalTrainer,deletePersonalTrainer,updatePersonalTrainer,updatePersonalTrainerEmailPassword} from "../models/personalTrainers_db.js";
 
 const getAllPersonalTrainersCon = async (req,res) => {
     try {
-        res.status(200).json(await getAllPersonalTrainers());
+        await getAllPersonalTrainers();
+        res.status(200).json({
+            message:"Successfully got all personal trainers"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -13,7 +16,10 @@ const getAllPersonalTrainersCon = async (req,res) => {
 
 const getPersonalTrainerByIdCon = async (req,res) => {
     try {
-        res.status(200).json(await getPersonalTrainerById(req.params.trainer_id));
+        await getPersonalTrainerById(req.params.trainer_id)
+        res.status(200).json({
+            message:"Successfully got personal trainer by id"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -24,7 +30,10 @@ const getPersonalTrainerByIdCon = async (req,res) => {
 
 const getPersonalTrainersBySpecializationCon = async (req,res) => {
     try {
-        res.status(200).json(await getPersonalTrainersBySpecialization(req.params.specialization));
+        await getPersonalTrainersBySpecialization(req.params.specialization);
+        res.status(200).json({
+            message:"Successfully got personal trainers by specialization"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -35,7 +44,10 @@ const getPersonalTrainersBySpecializationCon = async (req,res) => {
 
 const getPersonalTrainersByExperienceCon = async (req,res) => {
     try {
-        res.status(200).json(await getPersonalTrainersByExperience(req.params.experience));
+        await getPersonalTrainersByExperience(req.params.experience);
+        res.status(200).json({
+            message:"Successfully got personal trainers by experience"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -47,7 +59,7 @@ const getPersonalTrainersByExperienceCon = async (req,res) => {
 const addPersonalTrainerCon = async (req,res) => {
     try {
         await addPersonalTrainer(req.body);
-        res.json({
+        res.status(200).json({
             message:"Personal trainer added successfully"
         });
     } catch (err) {

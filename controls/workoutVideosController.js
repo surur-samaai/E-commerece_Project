@@ -1,8 +1,11 @@
-import {getAllWorkoutVideos, getWorkoutVideoById, getWorkoutVideosByCategory, addWorkoutVideo, deleteWorkoutVideo, updateWorkoutVideo} from "../Models/workoutVideos_db.js";
+import {getAllWorkoutVideos, getWorkoutVideoById, getWorkoutVideosByCategory, addWorkoutVideo, deleteWorkoutVideo, updateWorkoutVideo} from "../models/workoutVideos_db.js";
 
 const getAllWorkoutVideosCon = async (req, res) => {
     try {
-        res.status(200).json(await getAllWorkoutVideos());
+        await getAllWorkoutVideos();
+        res.status(200).json({
+            message:"Workout videos found successfully"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -13,7 +16,10 @@ const getAllWorkoutVideosCon = async (req, res) => {
 
 const getWorkoutVideosByIdCon = async (req, res) => {
     try {
-        res.status(200).json(await getWorkoutVideoById(req.params.video_id));
+        await getWorkoutVideoById(req.params.video_id);
+        res.status(200).json({
+            message:"Workout video found successfully"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -25,7 +31,10 @@ const getWorkoutVideosByIdCon = async (req, res) => {
 
 const getWorkoutVideosByCategoryCon = async (req, res) => {
     try {
-        res.status(200).json(await getWorkoutVideosByCategory(req.params.category));
+        await getWorkoutVideosByCategory(req.params.category);
+        res.status(200).json({
+            message:"Workout videos found successfully"
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({

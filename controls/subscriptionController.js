@@ -1,4 +1,4 @@
-import {getAllSubscriptions, getSubscriptionById, getSubscriptionsByName, getSubscriptionsByDuration, addSubscription, deleteSubscription, updateSubscription} from "../Models/subscription_db.js";
+import {getAllSubscriptions, getSubscriptionById, getSubscriptionsByName, getSubscriptionsByDuration, addSubscription, deleteSubscription, updateSubscription} from "../models/subscription_db.js";
 
 const getAllSubscriptionsCon = async (req, res) => {
     try {
@@ -10,58 +10,85 @@ const getAllSubscriptionsCon = async (req, res) => {
 
 const getSubscriptionByIdCon = async (req, res) => {
     try {
-        res.json(await getSubscriptionById(req.params.subscription_id));
+        await getSubscriptionById(req.params.subscription_id);
+        res.status(200).json({
+            message:"Subscription found successfully"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting the subscription"
+        })
     }
 }
 
 const getSubscriptionsByNameCon = async (req, res) => {
     try {
-        res.json(await getSubscriptionsByName(req.params.name));
+        await getSubscriptionsByName(req.params.name);
+        res.status(200).json({
+            message:"Subscriptions found successfully"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting the subscriptions"
+        })
     }
 }
 
 const getSubscriptionsByDurationCon = async (req, res) => {
     try {
-        res.json(await getSubscriptionsByDuration(req.params.duration_months));
+        await getSubscriptionsByDuration(req.params.duration_months);
+        res.status(200).json({
+            message:"Subscriptions found successfully"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting the subscriptions"
+        })
     }
 }
 
 const addSubscriptionCon = async (req, res) => {
     try {
         await addSubscription(req.body);
-        res.json({
+        res.status(200).json({
             message:"Subscription added successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while adding the subscription"
+        })
     }
 }
 
 const deleteSubscriptionCon = async (req, res) => {
     try {
         await deleteSubscription(req.params.subscription_id);
-        res.json({
+        res.status(200).json({
             message:"Subscription deleted successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while deleting the subscription"
+        })
     }
 }
 
 const updateSubscriptionCon = async (req, res) => {
     try {
         await updateSubscription(req.params.subscription_id, req.body);
-        res.json({
+        res.status(200).json({
             message:"Subscription updated successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while updating the subscription"
+        })
     }
 }
 

@@ -1,67 +1,97 @@
-import {getAllLocations, getLocationById, getLocationByCity, getLocationByProvince, addLocation, deleteLocation, updateLocation} from "../Models/locations_db.js";
+import {getAllLocations, getLocationById, getLocationByCity, getLocationByProvince, addLocation, deleteLocation, updateLocation} from "../models/locations_db.js";
 
 const getAllLocationsCon = async (req, res) => {
     try {
-        res.json(await getAllLocations());
+        await getAllLocations();
+        res.status(200).json({
+            message:"Successfully got all locations"});
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting all locations"
+        });
     }
 }
 
 const getLocationbyIdCon = async (req, res) => {
     try {
-        res.json(await getLocationById(req.params.location_id));
+        await getLocationById(req.params.location_id);
+        res.status(200).json();
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting location by id"
+        });
     }
 }
 
 const getLocationByCityCon = async (req, res) => {
     try {
-        res.json(await getLocationByCity(req.params.city));
+        await getLocationByCity(req.params.city);
+        res.status(200).json({
+            message:"Successfully got location by city"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting location by city"
+        });
     }
 }
 
 const getLocationByProvinceCon = async (req, res) => {
     try {
-        res.json(await getLocationByProvince(req.params.province));
+        await getLocationByProvince(req.params.province);
+        res.status(200).json({
+            message:"Successfully got location by province"
+        });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while getting location by province"
+        });
     }
 }
 
 const addLocationCon = async (req, res) => {
     try {
         await addLocation(req.body);
-        res.json({
+        res.status(200).json({
             message:"Location added successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while adding location"
+        });
     }
 }
 
 const deleteLocationCon = async (req, res) => {
     try {
         await deleteLocation(req.params.location_id);
-        res.json({
+        res.status(200).json({
             message:"Location deleted successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while deleting location"
+        });
     }
 }
 
 const updateLocationCon = async (req, res) => {
     try {
         await updateLocation(req.params.location_id, req.body);
-        res.json({
+        res.status(200).json({
             message:"Location updated successfully"
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.status(500).json({
+            error:"There was an error while updating location"
+        });
     }
 }
 
