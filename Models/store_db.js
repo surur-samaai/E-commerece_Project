@@ -1,7 +1,7 @@
 import {pool} from "../config/config.js";
 
 const getAllProducts = async () => {
-    let [data] = await pool.query("SELECT * FROM store ORDER BY category DESC");
+    let [data] = await pool.query("SELECT * FROM store");
     return data
 }
 
@@ -18,14 +18,15 @@ const getProductsBySupplier = async (supplier) => {
 }
 
 
-const getProductsByCategory = async (category) => {
-    let [data] = await pool.query("SELECT * FROM store WHERE category = ?", [category]);
-    return data
-}
+const getProductsByCategory = async (categories) => {
+    let [data] = await pool.query("SELECT * FROM store WHERE BINARY categories = ?", [categories]);
+    return data;
+};
 
 
-const addProduct = async (product_id,name,description,price,stock,supplier,category,image_url) => {
-    let [data] = await pool.query("INSERT INTO store (product_id,name,description,price,stock,supplier,category,image_url) VALUES (?,?,?,?,?,?,?,?)", [product_id,name,description,price,stock,supplier,category,image_url]);
+
+const addProduct = async (product_id,name,description,price,stock,supplier,categories,image_url) => {
+    let [data] = await pool.query("INSERT INTO store (product_id,name,description,price,stock,supplier,categories,image_url) VALUES (?,?,?,?,?,?,?,?)", [product_id,name,description,price,stock,supplier,categories,image_url]);
 }
 
 

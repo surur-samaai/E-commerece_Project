@@ -1,5 +1,5 @@
 import express from "express";
-import {getAllBookingsCon, getBookingByIdCon, getBookingsByDate, getBookingsByTime, getBookingsByStatus, getBookingByUserIdCon, getBookingByTrainerIdCon, addBookingCon, deleteBookingCon, updateBookingCon} from "../controls/bookingsController.js";
+import {getAllBookingsCon, getBookingByIdCon, getBookingsByDateCon, getBookingsByTimeCon, getBookingsByStatusCon, getBookingByUserIdCon, getBookingByTrainerIdCon, addBookingCon, deleteBookingCon, updateBookingCon} from "../controls/bookingsController.js";
 
 const router = express.Router();
 
@@ -7,11 +7,11 @@ router.get("/", getAllBookingsCon);
 
 router.get("/:booking_id", getBookingByIdCon);
 
-router.get("/date/:date", getBookingsByDate);
+router.get("/date/:date", getBookingsByDateCon);
 
-router.get("/time/:time", getBookingsByTime);
+router.get("/time/:time", getBookingsByTimeCon);
 
-router.get("/status/:status", getBookingsByStatus);
+router.get("/status/:status", getBookingsByStatusCon);
 
 router.get("/user/:user_id", getBookingByUserIdCon);    
 

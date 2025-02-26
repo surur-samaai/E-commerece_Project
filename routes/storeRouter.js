@@ -9,7 +9,7 @@ router.get("/:product_id", getProductsByIdCon);
 
 router.get("/supplier/:supplier", getProductsBySupplierCon);
 
-router.get("/category/:category", getProductsByCategoryCon);
+router.get("/categories/:category", getProductsByCategoryCon);
 
 router.post("/", addProductCon);
 

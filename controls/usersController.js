@@ -1,4 +1,4 @@
-import {getAllUsers,getUsersBySubscription,getUserById,addUser,deleteUser,updateUserDetails,updateUserPassword,updateUserEmail} from "../models/users_db.jss";
+import {getAllUsers,getUsersBySubscription,getUserById,addUser,deleteUser,updateUserDetails,updateUserPassword,updateUserEmail} from "../models/users_db.js";
 
 const getAllUsersCon = async (req,res) => {
     try {

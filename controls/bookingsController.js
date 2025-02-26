@@ -28,7 +28,7 @@ const getBookingByIdCon = async (req, res) => {
     }
 }
 
-const getBookingsByDate = async (req, res) => {
+const getBookingsByDateCon = async (req, res) => {
     try {
         await getBookingsByDate(req.params.date);
         res.status(200).json({
@@ -42,7 +42,7 @@ const getBookingsByDate = async (req, res) => {
     }
 }
 
-const getBookingsByTime = async (req, res) => {
+const getBookingsByTimeCon = async (req, res) => {
     try {
         await getBookingsByTime(req.params.time);
         res.status(200).json({
@@ -56,7 +56,7 @@ const getBookingsByTime = async (req, res) => {
     }
 }
 
-const getBookingsByStatus = async (req, res) => {
+const getBookingsByStatusCon = async (req, res) => {
     try {
         await getBookingsByStatus(req.params.status);
         res.status(200).json({
@@ -140,4 +140,4 @@ const updateBookingCon = async (req, res) => {
     }
 }
 
-export {getAllBookingsCon, getBookingByIdCon, getBookingsByDate, getBookingsByTime, getBookingsByStatus, getBookingByUserIdCon, getBookingByTrainerIdCon, addBookingCon, deleteBookingCon, updateBookingCon};
+export {getAllBookingsCon, getBookingByIdCon, getBookingsByDateCon, getBookingsByTimeCon, getBookingsByStatusCon, getBookingByUserIdCon, getBookingByTrainerIdCon, addBookingCon, deleteBookingCon, updateBookingCon};

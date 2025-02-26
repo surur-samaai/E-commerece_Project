@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+// import bcrypt from "bcryptjs";
+// import jwt from "jsonwebtoken";
 import workoutVideosRouter from "./routes/workoutVideosRouter.js"
 import articlesRouter from "./routes/articlesRouter.js"
 import adminRouter from "./routes/adminRouter.js"
@@ -21,8 +21,8 @@ const app = express();
 app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
-app.use(bcrypt());
-app.use(jwt());
+// app.use(bcrypt());
+// app.use(jwt());
 
 app.use("/workoutVideos", workoutVideosRouter);
 app.use("/articles", articlesRouter);
@@ -36,7 +36,7 @@ app.use("/subscription", subscriptionRouter);
 app.use("/bookings", bookingRouter);
 app.use("/personalTrainers", personalTrainersRouter);
 
-const PORT = process.env.PORT || 3306;
+const PORT = process.env.PORT || 3000;
 
 // Start the server
 app.listen(PORT, () => {

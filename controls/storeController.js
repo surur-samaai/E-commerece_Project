@@ -2,10 +2,7 @@ import {getAllProducts, getProductById, getProductsBySupplier, getProductsByCate
 
 const getAllProductsCon = async (req, res) => {
     try {
-        await getAllProducts();
-        res.status(200).json({
-            message:"Products found successfully"
-        });
+        res.status(200).json(await getAllProducts());
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -42,17 +39,18 @@ const getProductsBySupplierCon = async (req, res) => {
 
 const getProductsByCategoryCon = async (req, res) => {
     try {
-        await getProductsByCategory(req.params.category)
-        res.status(200).json({
-            message:"Products found successfully"
-        });
+        const category = req.params.category; // Get the category from URL params
+        const products = await getProductsByCategory(category); // Pass it to the model function
+
+        res.status(200).json(products);
     } catch (err) {
         console.error(err);
         res.status(500).json({
-            error:"There was an error while getting the products"
-        })
+            error: "There was an error while getting the products"
+        });
     }
-}
+};
+
 
 const addProductCon = async (req, res) => {
     try {
