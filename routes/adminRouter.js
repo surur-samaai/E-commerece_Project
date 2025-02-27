@@ -1,5 +1,5 @@
 import express from "express";
-import {getAllAdminCon, getAdminByIdCon, addAdminCon, deleteAdminCon, updateAdminPasswordCon, updateAdminEmailCon} from "../controls/adminController.js";
+import {getAllAdminCon, getAdminByIdCon, addAdminCon, deleteAdminCon, updateAdminCon} from "../controls/adminController.js";
 
 const router = express.Router();
 
@@ -11,8 +11,10 @@ router.post("/", addAdminCon);
 
 router.delete("/:admin_id", deleteAdminCon);
 
-router.patch("/password/:admin_id", updateAdminPasswordCon);
+router.patch("/:admin_id", updateAdminCon);
 
-router.patch("/email/:admin_id", updateAdminEmailCon);
+// router.patch("/password/:admin_id", updateAdminPasswordCon);
+
+// router.patch("/email/:admin_id", updateAdminEmailCon);
 
 export default router;

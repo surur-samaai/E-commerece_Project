@@ -12,14 +12,14 @@ const getWorkoutVideoById = async (video_id) => {
 }
 
 
-const getWorkoutVideosByCategory = async (category) => {
-    let [data] = await pool.query("SELECT * FROM workout_videos WHERE category = ?", [category]);
-    return data
-}
+// const getWorkoutVideosByCategory = async (category) => {
+//     let [data] = await pool.query("SELECT * FROM workout_videos WHERE category = ?", [category]);
+//     return data
+// }
 
 
-const addWorkoutVideo = async (video_id,name,description,url,category) => {
-    let [data] = await pool.query("INSERT INTO workout_videos (video_id,name,description,url,category) VALUES (?,?,?,?,?)", [video_id,name,description,url,category]);
+const addWorkoutVideo = async ({title,description,url,category}) => {
+    let [data] = await pool.query("INSERT INTO workout_videos (title,description,url,category) VALUES (?,?,?,?)", [title,description,url,category]);
 }
 
 
@@ -28,9 +28,9 @@ const deleteWorkoutVideo = async (video_id) => {
 }
 
 
-const updateWorkoutVideo = async (video_id,name,description,url,category) => {
-    let [data] = await pool.query("UPDATE workout_videos SET name = ?, description = ?, url = ?, category = ? WHERE video_id = ?", [name,description,url,category,video_id]);
+const updateWorkoutVideo = async (video_id,{title,description,url,category}) => {
+    let [data] = await pool.query("UPDATE workout_videos SET title = ?, description = ?, url = ?, category = ? WHERE video_id = ?", [title,description,url,category,video_id]);
 }
 
-export {getAllWorkoutVideos, getWorkoutVideoById, getWorkoutVideosByCategory, addWorkoutVideo, deleteWorkoutVideo, updateWorkoutVideo}
+export {getAllWorkoutVideos, getWorkoutVideoById, addWorkoutVideo, deleteWorkoutVideo, updateWorkoutVideo}
 

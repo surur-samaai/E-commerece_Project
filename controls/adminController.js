@@ -1,11 +1,8 @@
-import {getAllAdmins,getAdminById,addAdmin,deleteAdmin,updateAdminPassword,updateAdminEmail} from "../models/admin_db.js";
+import {getAllAdmins,getAdminById,addAdmin,deleteAdmin,updateAdmin} from "../models/admin_db.js";
 
 const getAllAdminCon = async (req,res) => {
     try {
-        await getAllAdmins();
-        res.status(200).json({
-            message:"Successfully got all admins"
-        });
+        res.status(200).json(await getAllAdmins());
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -16,10 +13,7 @@ const getAllAdminCon = async (req,res) => {
 
 const getAdminByIdCon = async (req,res) => {
     try {
-        await getAdminById(req.params.admin_id);
-        res.status(200).json({
-            message:"Successfully got admin by id"
-        });
+        res.status(200).json(await getAdminById(req.params.admin_id));
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -56,32 +50,46 @@ const deleteAdminCon = async (req,res) => {
     }
 }
 
-const updateAdminPasswordCon = async (req,res) => {
+const updateAdminCon = async (req,res) => {
     try {
-        await updateAdminPassword(req.params.admin_id,req.body.password);
+        await updateAdmin(req.params.admin_id,req.body);
         res.status(200).json({
-            message:"Admin password updated successfully"
+            message:"Admin updated successfully"
         });
     } catch (err) {
         console.error(err);
         res.status(500).json({
-            error:"There was an error while updating admin password"
+            error:"There was an error while updating admin"
         });
     }
 }
 
-const updateAdminEmailCon = async (req,res) => {
-    try {
-        await updateAdminEmail(req.params.admin_id,req.body.email);
-        res.status(200).json({
-            message:"Admin email updated successfully"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while updating admin email"
-        });
-    }
-}
+// const updateAdminPasswordCon = async (req,res) => {
+//     try {
+//         await updateAdminPassword(req.params.admin_id,req.body.password);
+//         res.status(200).json({
+//             message:"Admin password updated successfully"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while updating admin password"
+//         });
+//     }
+// }
 
-export {getAllAdminCon, getAdminByIdCon, addAdminCon, deleteAdminCon, updateAdminPasswordCon, updateAdminEmailCon};
+// const updateAdminEmailCon = async (req,res) => {
+//     try {
+//         await updateAdminEmail(req.params.admin_id,req.body.email);
+//         res.status(200).json({
+//             message:"Admin email updated successfully"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while updating admin email"
+//         });
+//     }
+// }
+
+export {getAllAdminCon, getAdminByIdCon, addAdminCon, deleteAdminCon, updateAdminCon};

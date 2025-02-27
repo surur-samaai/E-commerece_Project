@@ -1,11 +1,8 @@
-import {getAllWorkoutVideos, getWorkoutVideoById, getWorkoutVideosByCategory, addWorkoutVideo, deleteWorkoutVideo, updateWorkoutVideo} from "../models/workoutVideos_db.js";
+import {getAllWorkoutVideos, getWorkoutVideoById, addWorkoutVideo, deleteWorkoutVideo, updateWorkoutVideo} from "../models/workoutVideos_db.js";
 
 const getAllWorkoutVideosCon = async (req, res) => {
     try {
-        await getAllWorkoutVideos();
-        res.status(200).json({
-            message:"Workout videos found successfully"
-        });
+        res.status(200).json(await getAllWorkoutVideos());
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -16,10 +13,7 @@ const getAllWorkoutVideosCon = async (req, res) => {
 
 const getWorkoutVideosByIdCon = async (req, res) => {
     try {
-        await getWorkoutVideoById(req.params.video_id);
-        res.status(200).json({
-            message:"Workout video found successfully"
-        });
+        res.status(200).json(await getWorkoutVideoById(req.params.video_id));
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -29,19 +23,19 @@ const getWorkoutVideosByIdCon = async (req, res) => {
 }
 
 
-const getWorkoutVideosByCategoryCon = async (req, res) => {
-    try {
-        await getWorkoutVideosByCategory(req.params.category);
-        res.status(200).json({
-            message:"Workout videos found successfully"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while getting workout videos by category"
-        });
-    }
-}
+// const getWorkoutVideosByCategoryCon = async (req, res) => {
+//     try {
+//         await getWorkoutVideosByCategory(req.params.category);
+//         res.status(200).json({
+//             message:"Workout videos found successfully"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while getting workout videos by category"
+//         });
+//     }
+// }
 
 
 const addWorkoutVideoCon = async (req, res) => {
@@ -88,4 +82,4 @@ const updateWorkoutVideoCon = async (req, res) => {
     }
 }
 
-export {getAllWorkoutVideosCon, getWorkoutVideosByIdCon, getWorkoutVideosByCategoryCon, addWorkoutVideoCon, deleteWorkoutVideoCon, updateWorkoutVideoCon};
+export {getAllWorkoutVideosCon, getWorkoutVideosByIdCon, addWorkoutVideoCon, deleteWorkoutVideoCon, updateWorkoutVideoCon};

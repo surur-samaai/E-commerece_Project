@@ -1,4 +1,4 @@
-import {getAllProducts, getProductById, getProductsBySupplier, getProductsByCategory, addProduct, deleteProduct, updateProduct} from "../models/store_db.js";
+import {getAllProducts, getProductById, addProduct, deleteProduct, updateProduct} from "../models/store_db.js";
 
 const getAllProductsCon = async (req, res) => {
     try {
@@ -13,8 +13,7 @@ const getAllProductsCon = async (req, res) => {
 
 const getProductsByIdCon = async (req, res) => {
     try {
-        await getProductById(req.params.product_id);
-        res.status(200).json();
+        res.status(200).json(await getProductById(req.params.product_id));
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -23,33 +22,33 @@ const getProductsByIdCon = async (req, res) => {
     }
 }
 
-const getProductsBySupplierCon = async (req, res) => {
-    try {
-        await getProductsBySupplier(req.params.supplier);
-        res.status(200).json({
-            message:"Products found successfully"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while getting the products"
-        })
-    }
-}
+// const getProductsBySupplierCon = async (req, res) => {
+//     try {
+//         await getProductsBySupplier(req.params.supplier);
+//         res.status(200).json({
+//             message:"Products found successfully"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while getting the products"
+//         })
+//     }
+// }
 
-const getProductsByCategoryCon = async (req, res) => {
-    try {
-        const category = req.params.category; // Get the category from URL params
-        const products = await getProductsByCategory(category); // Pass it to the model function
+// const getProductsByCategoryCon = async (req, res) => {
+//     try {
+//         const category = req.params.category; // Get the category from URL params
+//         const products = await getProductsByCategory(category); // Pass it to the model function
 
-        res.status(200).json(products);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: "There was an error while getting the products"
-        });
-    }
-};
+//         res.status(200).json(products);
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error: "There was an error while getting the products"
+//         });
+//     }
+// };
 
 
 const addProductCon = async (req, res) => {
@@ -94,4 +93,4 @@ const updateProductCon = async (req, res) => {
     }
 }
 
-export {getAllProductsCon, getProductsByIdCon, getProductsBySupplierCon, getProductsByCategoryCon, addProductCon, deleteProductCon, updateProductCon};
+export {getAllProductsCon, getProductsByIdCon, addProductCon, deleteProductCon, updateProductCon};

@@ -1,10 +1,8 @@
-import {getAllLocations, getLocationById, getLocationByCity, getLocationByProvince, addLocation, deleteLocation, updateLocation} from "../models/locations_db.js";
+import {getAllLocations, getLocationById, addLocation, deleteLocation, updateLocation} from "../models/locations_db.js";
 
 const getAllLocationsCon = async (req, res) => {
     try {
-        await getAllLocations();
-        res.status(200).json({
-            message:"Successfully got all locations"});
+        res.status(200).json(await getAllLocations());
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -15,8 +13,7 @@ const getAllLocationsCon = async (req, res) => {
 
 const getLocationbyIdCon = async (req, res) => {
     try {
-        await getLocationById(req.params.location_id);
-        res.status(200).json();
+        res.status(200).json(await getLocationById(req.params.location_id));
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -25,33 +22,33 @@ const getLocationbyIdCon = async (req, res) => {
     }
 }
 
-const getLocationByCityCon = async (req, res) => {
-    try {
-        await getLocationByCity(req.params.city);
-        res.status(200).json({
-            message:"Successfully got location by city"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while getting location by city"
-        });
-    }
-}
+// const getLocationByCityCon = async (req, res) => {
+//     try {
+//         await getLocationByCity(req.params.city);
+//         res.status(200).json({
+//             message:"Successfully got location by city"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while getting location by city"
+//         });
+//     }
+// }
 
-const getLocationByProvinceCon = async (req, res) => {
-    try {
-        await getLocationByProvince(req.params.province);
-        res.status(200).json({
-            message:"Successfully got location by province"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while getting location by province"
-        });
-    }
-}
+// const getLocationByProvinceCon = async (req, res) => {
+//     try {
+//         await getLocationByProvince(req.params.province);
+//         res.status(200).json({
+//             message:"Successfully got location by province"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while getting location by province"
+//         });
+//     }
+// }
 
 const addLocationCon = async (req, res) => {
     try {
@@ -95,4 +92,4 @@ const updateLocationCon = async (req, res) => {
     }
 }
 
-export {getAllLocationsCon, getLocationbyIdCon, getLocationByCityCon, getLocationByProvinceCon, addLocationCon, deleteLocationCon, updateLocationCon};
+export {getAllLocationsCon, getLocationbyIdCon, addLocationCon, deleteLocationCon, updateLocationCon};

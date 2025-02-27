@@ -12,16 +12,16 @@ const getLocationById = async (location_id) => {
 }
 
 
-const getLocationByCity = async (city) => {
-    let [data] = await pool.query("SELECT * FROM locations WHERE city = ?", [city]);
-    return data
-}
+// const getLocationByCity = async (city) => {
+//     let [data] = await pool.query("SELECT * FROM locations WHERE city = ?", [city]);
+//     return data
+// }
 
 
-const getLocationByProvince = async (province) => {
-    let [data] = await pool.query("SELECT * FROM locations WHERE province = ?", [province]);
-    return data
-}
+// const getLocationByProvince = async (province) => {
+//     let [data] = await pool.query("SELECT * FROM locations WHERE province = ?", [province]);
+//     return data
+// }
 
 
 const addLocation = async (city, province, country) => {
@@ -38,5 +38,5 @@ const updateLocation = async (location_id, city, province, country) => {
     await pool.query("UPDATE locations SET city = ?, province = ?, country = ? WHERE location_id = ?", [city, province, country, location_id]);
 }
 
-export {getAllLocations, getLocationById, getLocationByCity, getLocationByProvince, addLocation, deleteLocation, updateLocation}
+export {getAllLocations, getLocationById, addLocation, deleteLocation, updateLocation}
 

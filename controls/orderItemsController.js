@@ -2,10 +2,7 @@ import {getAllOrderItems, getOrderItemById, addOrderItem, deleteOrderItem, updat
 
 const getAllOrderItemsCon = async (req, res) => {
     try {
-        await getAllOrderItems();
-        res.status(200).json({
-            message:"Successfully got all order items"
-        });
+        res.status(200).json(await getAllOrderItems());
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -16,10 +13,7 @@ const getAllOrderItemsCon = async (req, res) => {
 
 const getOrderItemByIdCon = async (req, res) => {
     try {
-        await getOrderItemById(req.params.order_item_id);
-        res.status(200).json({
-            message:"Successfully got order item by id"
-        });
+        res.status(200).json(await getOrderItemById(req.params.order_item_id));
     } catch (err) {
         console.error(err);
         res.status(500).json({

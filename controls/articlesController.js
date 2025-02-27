@@ -1,11 +1,8 @@
-import {getAllArticles, getArticleById, addArticle, deleteArticle, updateArticle, getAllArticlesOrderByDate, getAllArticlesOrderByAuthor} from "../models/articles_db.js";
+import {getAllArticles, getArticleById, addArticle, deleteArticle, updateArticle} from "../models/articles_db.js";
 
 const getAllArticlesCon = async (req, res) => {
     try {
-        await getAllArticles();
-        res.status(200).json({
-            message:"Successfully got all articles"
-        });
+        res.status(200).json(await getAllArticles());
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -14,40 +11,37 @@ const getAllArticlesCon = async (req, res) => {
     }
 }
 
-const getAllArticlesOrderByDateCon = async (req, res) => {
-    try {
-        await getAllArticlesOrderByDate();
-        res.status(200).json({
-            message:"Successfully got all articles ordered by date"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while getting all articles ordered by date"
-        });
-    }
-}
+// const getAllArticlesOrderByDateCon = async (req, res) => {
+//     try {
+//         await getAllArticlesOrderByDate();
+//         res.status(200).json({
+//             message:"Successfully got all articles ordered by date"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while getting all articles ordered by date"
+//         });
+//     }
+// }
 
-const getAllArticlesOrderByAuthorCon = async (req, res) => {
-    try {
-        await getAllArticlesOrderByAuthor();
-        res.status(200).json({
-            message:"Successfully got all articles ordered by author"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while getting all articles ordered by author"
-        });
-    }
-}
+// const getAllArticlesOrderByAuthorCon = async (req, res) => {
+//     try {
+//         await getAllArticlesOrderByAuthor();
+//         res.status(200).json({
+//             message:"Successfully got all articles ordered by author"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while getting all articles ordered by author"
+//         });
+//     }
+// }
 
 const getArticleByIdCon = async (req, res) => {
     try {
-        await getArticleById(req.params.article_id);
-        res.status(200).json({
-            message:"Successfully got article by id"
-        });
+        res.status(200).json(await getArticleById(req.params.article_id));
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -98,4 +92,4 @@ const updateArticleCon = async (req, res) => {
     }
 }
 
-export {getAllArticlesCon, getArticleByIdCon, addArticleCon, deleteArticleCon, updateArticleCon, getAllArticlesOrderByDateCon, getAllArticlesOrderByAuthorCon};
+export {getAllArticlesCon, getArticleByIdCon, addArticleCon, deleteArticleCon, updateArticleCon};

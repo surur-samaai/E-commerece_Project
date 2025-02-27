@@ -1,11 +1,8 @@
-import {getAllUsers,getUsersBySubscription,getUserById,addUser,deleteUser,updateUserDetails,updateUserPassword,updateUserEmail} from "../models/users_db.js";
+import {getAllUsers,getUserById,addUser,deleteUser,updateUserDetails} from "../models/users_db.js";
 
 const getAllUsersCon = async (req,res) => {
     try {
-        await getAllUsers();
-        res.status(200).json({
-            message:"Users found successfully"
-        });
+        res.status(200).json(await getAllUsers());
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -14,26 +11,23 @@ const getAllUsersCon = async (req,res) => {
     }
 }
 
-const getUsersBySubscriptionCon = async (req,res) => {
-    try {
-        await getUsersBySubscription(req.params.subscription_type);
-        res.status(200).json({
-            message:"Users found successfully"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while getting users by subscription"
-        })
-    }
-}
+// const getUsersBySubscriptionCon = async (req,res) => {
+//     try {
+//         await getUsersBySubscription(req.params.subscription_type);
+//         res.status(200).json({
+//             message:"Users found successfully"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while getting users by subscription"
+//         })
+//     }
+// }
 
 const getUserByIdCon = async (req,res) => {
     try {
-        await getUserById(req.params.user_id);
-        res.status(200).json({
-            message:"User found successfully"
-        });
+        res.status(200).json(await getUserById(req.params.user_id));
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -44,9 +38,8 @@ const getUserByIdCon = async (req,res) => {
 
 
 const addUserCon = async (req,res) => {
-    let {user_id,name,email,password,address,subscription_type} = req.body
     try {
-       await addUser(user_id,name,email,password,address,subscription_type);
+       await addUser(req.body);
        res.status(200).json({
         message:"User added successfully"
     });
@@ -75,10 +68,8 @@ const deleteUserCon = async (req,res) => {
 
 
 const updateUserDetailsCon = async (req,res) => {
-    let {user_id,name,address,location_id,subscription_type} = req.body;
-    console.log(req.body);
     try {
-        await updateUserDetails(user_id,name,address,location_id,subscription_type);
+        await updateUserDetails(req.params.user_id,req.body);
     res.status(200).json({
         message:"User details updated successfully"
     });
@@ -91,36 +82,36 @@ const updateUserDetailsCon = async (req,res) => {
 }
 
 
-const updateUserPasswordCon = async (req,res) => {
-    let {user_id,password} = req.body;
-    try {
-        await updateUserPassword(user_id,password);
-    res.satus(200).json({
-        message:"User password updated successfully"
-        });
-    } catch (err) {
-    console.error(err);
-    res.status(500).json({
-        error:"There was an error while updating user password"
-        })
-    }
-}
+// const updateUserPasswordCon = async (req,res) => {
+//     let {user_id,password} = req.body;
+//     try {
+//         await updateUserPassword(user_id,password);
+//     res.satus(200).json({
+//         message:"User password updated successfully"
+//         });
+//     } catch (err) {
+//     console.error(err);
+//     res.status(500).json({
+//         error:"There was an error while updating user password"
+//         })
+//     }
+// }
 
 
-const updateUserEmailCon = async (req,res) => {
-    let {user_id,email} = req.body;
-    try {
-        await updateUserEmail(user_id,email);
-    res.status(200).json({
-        message:"User email updated successfully"
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error:"There was an error while updating user email"
-        })
-    }
-}
+// const updateUserEmailCon = async (req,res) => {
+//     let {user_id,email} = req.body;
+//     try {
+//         await updateUserEmail(user_id,email);
+//     res.status(200).json({
+//         message:"User email updated successfully"
+//         });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({
+//             error:"There was an error while updating user email"
+//         })
+//     }
+// }
 
-export {getAllUsersCon,getUsersBySubscriptionCon,getUserByIdCon,addUserCon,deleteUserCon,updateUserDetailsCon,updateUserPasswordCon,updateUserEmailCon}
+export {getAllUsersCon,getUserByIdCon,addUserCon,deleteUserCon,updateUserDetailsCon}
 

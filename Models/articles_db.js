@@ -6,16 +6,16 @@ const getAllArticles = async () => {
 }
 
 
-const getAllArticlesOrderByDate = async () => {
-    let [data] = await pool.query("SELECT * FROM articles ORDER BY puclished_date DESC");
-    return data
-}
+// const getAllArticlesOrderByDate = async () => {
+//     let [data] = await pool.query("SELECT * FROM articles ORDER BY puclished_date DESC");
+//     return data
+// }
 
 
-const getAllArticlesOrderByAuthor = async () => {
-    let [data] = await pool.query("SELECT * FROM articles ORDER BY author DESC");
-    return data
-}
+// const getAllArticlesOrderByAuthor = async () => {
+//     let [data] = await pool.query("SELECT * FROM articles ORDER BY author DESC");
+//     return data
+// }
 
 
 const getArticleById = async (article_id) => {
@@ -39,5 +39,5 @@ const updateArticle = async (article_id, title, article_URL, author, puclished_d
 }
 
 
-export { getAllArticles,getAllArticlesOrderByDate,getAllArticlesOrderByAuthor, getArticleById, addArticle, deleteArticle, updateArticle }
+export { getAllArticles, getArticleById, addArticle, deleteArticle, updateArticle }
 

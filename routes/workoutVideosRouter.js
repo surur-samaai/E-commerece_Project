@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllWorkoutVideosCon, getWorkoutVideosByIdCon, getWorkoutVideosByCategoryCon, addWorkoutVideoCon, deleteWorkoutVideoCon, updateWorkoutVideoCon } from "../controls/workoutVideosController.js";
+import { getAllWorkoutVideosCon, getWorkoutVideosByIdCon, addWorkoutVideoCon, deleteWorkoutVideoCon, updateWorkoutVideoCon } from "../controls/workoutVideosController.js";
 
 const router = express.Router();
 
@@ -7,7 +7,7 @@ router.get("/", getAllWorkoutVideosCon);
 
 router.get("/:video_id", getWorkoutVideosByIdCon);
 
-router.get("/category/:category", getWorkoutVideosByCategoryCon);
+// router.get("/category/:category", getWorkoutVideosByCategoryCon);
 
 router.post("/", addWorkoutVideoCon);
 
