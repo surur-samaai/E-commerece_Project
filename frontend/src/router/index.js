@@ -5,11 +5,11 @@ import Articles from '../views/Articles.vue';
 import Booking from '../views/Booking.vue';
 import Cart from '../views/Cart.vue';
 import Shop from '../views/Shop.vue';
-import Payment from '@/views/Payment.vue';
-import Plans from '@/views/Plans.vue';
-import Products from '@/views/Products.vue';
-import Trainers from '@/views/Trainers.vue';
-import Tutorials from '@/views/Tutorials.vue';
+import Payment from '../views/Payment.vue';
+import Plans from '../views/Plans.vue';
+import Products from '../views/Products.vue';
+import Trainers from '../views/Trainers.vue';
+import Tutorials from '../views/Tutorials.vue';
 
 const routes = [
   { path: '/',

@@ -36,9 +36,9 @@
               <i class="fab fa-facebook"></i>
             </a>
           </div>
-          <router-link :to="{ name: 'Tutorials' }">
+          <!-- <router-link :to="{ name: 'tutorials' }">
             <button class="button">Watch Tutorials</button>
-          </router-link>
+          </router-link> -->
         </div>
       </div>
       <footer class="footer">

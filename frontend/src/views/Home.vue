@@ -5,7 +5,7 @@
                 <img src="/images/logo.png" alt="logo" id="logo" />
                 <nav>
                     <router-link to="/home">Home</router-link>
-                    <router-link to="/shop">Shop</router-link>
+                    <router-link to="/products">Shop</router-link>
                     <router-link to="/articles">Articles</router-link>
                     <router-link to="/plans">Subscriptions</router-link>
                 </nav>
@@ -23,7 +23,7 @@
                 <div class="hero-text">
                     <h1>Your Complete Fitness Solution</h1>
                     <p>All in one place.</p>
-                    <button @click="Login">Shop Now</button>
+                    <button @click="Login">Get Started</button>
                 </div>
             </div>
             <h2>Categories</h2>
@@ -40,7 +40,7 @@
                     <img :src="product.image" alt="Product Image" />
                     <h3>{{ product.title }}</h3>
                     <p>{{ product.price }}</p>
-                    <button>{{ product.buttonText }}</button>
+                    <button @click="Login">Buy Now</button>
                 </div>
             </div>
             <h2>Meet Our Trainers</h2>
