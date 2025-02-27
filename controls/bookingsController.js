@@ -108,7 +108,7 @@ const addBookingCon = async (req, res) => {
 
 const deleteBookingCon = async (req, res) => {
     try {
-        await deleteBooking(req.params.booking_id);
+        await deleteBooking(req.params.booking_id,req.body);
         res.status(200).json({
             message:"Booking deleted successfully"
         });

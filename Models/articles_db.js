@@ -24,8 +24,8 @@ const getArticleById = async (article_id) => {
 }
 
 
-const addArticle = async (title, article_URL, author, puclished_date) => {
-    await pool.query("INSERT INTO articles (title, article_URL, author, puclished_date) VALUES (?,?,?,?)", [title, article_URL, author, puclished_date]);
+const addArticle = async ({title, article_URL, author, published_date}) => {
+    await pool.query("INSERT INTO articles (title, article_URL, author, published_date) VALUES (?,?,?,?)", [title, article_URL, author, published_date]);
 }
 
 
@@ -34,8 +34,8 @@ const deleteArticle = async (article_id) => {
 }
 
 
-const updateArticle = async (article_id, title, article_URL, author, puclished_date) => {
-    await pool.query("UPDATE articles SET title = ?, article_URL = ?, author = ?, puclished_date = ? WHERE article_id = ?", [title, article_URL, author, puclished_date, article_id]);
+const updateArticle = async (article_id,{title, article_URL, author, published_date}) => {
+    await pool.query("UPDATE articles SET title = ?, article_URL = ?, author = ?, published_date = ? WHERE article_id = ?", [title, article_URL, author, published_date, article_id]);
 }
 
 

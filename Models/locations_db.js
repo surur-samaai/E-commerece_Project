@@ -24,7 +24,7 @@ const getLocationById = async (location_id) => {
 // }
 
 
-const addLocation = async (city, province, country) => {
+const addLocation = async ({city, province, country}) => {
     await pool.query("INSERT INTO locations (city, province, country) VALUES (?, ?, ?)", [city, province, country]);
 }
 
@@ -34,7 +34,7 @@ const deleteLocation = async (location_id) => {
 }
 
 
-const updateLocation = async (location_id, city, province, country) => {
+const updateLocation = async (location_id,{city, province, country}) => {
     await pool.query("UPDATE locations SET city = ?, province = ?, country = ? WHERE location_id = ?", [city, province, country, location_id]);
 }
 

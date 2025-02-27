@@ -1,27 +1,27 @@
 import {pool} from "../config/config.js";
 
 const getAllAdmins = async () => {
-    let [data] = await pool.query("SELECT * FROM admins");
+    let [data] = await pool.query("SELECT * FROM admin");
     return data
 }
 
 
 const getAdminById = async (admin_id) => {
-    let [data] = await pool.query("SELECT * FROM admins WHERE admin_id = ?", [admin_id]);
+    let [data] = await pool.query("SELECT * FROM admin WHERE admin_id = ?", [admin_id]);
     return data
 }
 
 
-const addAdmin = async (admin_id,name,email,password) => {
-    let [data] = await pool.query("INSERT INTO admins (admin_id,name,email,password) VALUES (?,?,?,?)", [admin_id,name,email,password]);
+const addAdmin = async ({name,email,password}) => {
+    let [data] = await pool.query("INSERT INTO admin (name,email,password) VALUES (?,?,?)", [name,email,password]);
 }
 
 
 const deleteAdmin = async (admin_id) => {
-    let [data] = await pool.query("DELETE FROM admins WHERE admin_id = ?", [admin_id]);
+    let [data] = await pool.query("DELETE FROM admin WHERE admin_id = ?", [admin_id]);
 }
 
-const updateAdmin = async (admin_id,name,email,password) => {
+const updateAdmin = async (admin_id,{name,email,password}) => {
     let [data] = await pool.query("UPDATE admin SET name = ?, email = ?, password = ? WHERE admin_id = ?", [name,email,password,admin_id]);
 }
 

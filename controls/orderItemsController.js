@@ -38,7 +38,7 @@ const addOrderItemCon = async (req, res) => {
 
 const deleteOrderItemCon = async (req, res) => {
     try {
-        await deleteOrderItem(req.params.order_item_id);
+        await deleteOrderItem(req.params.order_item_id,req.body);
         res.status(200).json({
             message:"Order item deleted successfully"
         });

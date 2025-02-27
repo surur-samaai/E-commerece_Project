@@ -40,15 +40,15 @@ const getBookingById = async (booking_id) => {
 //     return data
 // }
 
-const addBooking = async (user_id, trainer_id, session_date, session_time, status) => {
-    await pool.query("INSERT INTO bookings (user_id, trainer_id, session_date, session_time, status) VALUES (?, ?, ?, ?, ?)", [user_id, trainer_id, session_date, session_time, status]);
+const addBooking = async ({user_id,trainer_id, session_date, session_time, status}) => {
+    await pool.query("INSERT INTO bookings (user_id,trainer_id, session_date, session_time, status) VALUES (?, ?, ?, ?, ?)", [user_id,trainer_id, session_date, session_time, status]);
 }
 
 const deleteBooking = async (booking_id) => {
     await pool.query("DELETE FROM bookings WHERE booking_id = ?", [booking_id]);
 }
 
-const updateBooking = async (booking_id, user_id, trainer_id, session_date, session_time, status) => {
+const updateBooking = async (booking_id,{user_id, trainer_id, session_date, session_time, status}) => {
     await pool.query("UPDATE bookings SET user_id = ?, trainer_id = ?, session_date = ?, session_time = ?, status = ? WHERE booking_id = ?", [user_id, trainer_id, session_date, session_time, status, booking_id]);
 }
 
