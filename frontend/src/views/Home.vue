@@ -1,11 +1,12 @@
 <template>
+    <TrainerDetails />
     <div id="body">
         <header>
             <div class="navbar-left">
                 <img src="/images/logo.png" alt="logo" id="logo" />
                 <nav>
-                    <router-link to="/home">Home</router-link>
-                    <router-link to="/products">Shop</router-link>
+                    <router-link to="/">Home</router-link>
+                    <router-link to="/shop">Shop</router-link>
                     <router-link to="/articles">Articles</router-link>
                     <router-link to="/plans">Subscriptions</router-link>
                 </nav>
@@ -26,7 +27,6 @@
                     <button @click="Login">Get Started</button>
                 </div>
             </div>
-            <h2>Categories</h2>
             <div class="categories">
                 <div class="category" v-for="category in categories" :key="category.title">
                     <img :src="category.image" :alt="category.alt" />
@@ -34,7 +34,7 @@
                     <p>{{ category.description }}</p>
                 </div>
             </div>
-            <h2>Featured Products</h2>
+            <h2 class="tittle">Featured Products</h2>
             <div class="featured-products">
                 <div class="product" v-for="product in products" :key="product.title">
                     <img :src="product.image" alt="Product Image" />
@@ -43,18 +43,17 @@
                     <button @click="Login">Buy Now</button>
                 </div>
             </div>
-            <h2>Meet Our Trainers</h2>
+            <h2 class="tittle">Meet Our Trainers</h2>
         </div>
         <div class="wrapper">
             <div class="card" v-for="trainer in trainers" :key="trainer.name">
-                <router-link :to="trainer.link" target="_blank">
-                    <img :src="trainer.image" :alt="trainer.name" />
-                </router-link>
-
-                <h3>{{ trainer.name }}</h3>
-                <p>{{ trainer.specialty }}</p>
+                <img :src="trainer.image" :alt="trainer.name" @click="openModal(trainer)" />
             </div>
         </div>
+
+        <TrainerDetails v-if="selectedTrainer" :trainer="selectedTrainer" :isVisible="isModalVisible"
+            @close="closeModal" />
+
 
         <footer class="footer">
             <div class="footer-content">
@@ -92,8 +91,13 @@
 
 
 <script>
+import TrainerDetails from '@/components/TrainerDetails.vue';
+
 export default {
     name: "HomeView",
+    components: {
+        TrainerDetails,
+    },
     data() {
         return {
             categories: [
@@ -116,7 +120,7 @@ export default {
                     description: "There's something new every month"
                 },
                 {
-                    image: "/images/C ategories/category-training.jpg",
+                    image: "/images/Categories/category-training.jpg",
                     alt: "Training Image",
                     title: "Personal Training",
                     description: "Expert fitness guidance"
@@ -167,10 +171,20 @@ export default {
                     specialty: "Nutrition & Wellness Coach",
                     link: "trainers.html"
                 }
-            ]
+            ],
+            selectedTrainer: null,  // Holds the currently selected trainer
+            isModalVisible: false,
         };
     },
     methods: {
+        openModal(trainer) {
+            this.selectedTrainer = trainer;
+            this.isModalVisible = true;
+        },
+        closeModal() {
+            this.selectedTrainer = null;
+            this.isModalVisible = false;
+        },
         Login() {
             this.$router.push("/login");
         },
@@ -186,7 +200,7 @@ export default {
     padding: 0;
 }
 
-h2 {
+.tittle {
     margin-left: 40px;
     color: white;
 }
@@ -301,6 +315,7 @@ nav a:hover {
     font-size: 1em;
     background-color: crimson;
     color: white;
+    margin-top: 10px;
     border-radius: 20px;
     border: none;
     cursor: pointer;

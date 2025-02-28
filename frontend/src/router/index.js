@@ -10,6 +10,9 @@ import Plans from '../views/Plans.vue';
 import Products from '../views/Products.vue';
 import Trainers from '../views/Trainers.vue';
 import Tutorials from '../views/Tutorials.vue';
+import TrainerDetails from '../components/TrainerDetails.vue';
+import Administration from '../views/Administration.vue';
+import ProductModeling from '../components/ProductModeling.vue';
 
 const routes = [
   { path: '/',
@@ -53,8 +56,20 @@ const routes = [
     component: Trainers 
   },
   { path: '/tutorials', 
-    name:Tutorials,
+    name: 'Tutorials',
     component: Tutorials 
+  },
+  { path: '/trainerdetails', 
+    name: TrainerDetails,
+    component: TrainerDetails 
+  },
+  { path: '/admin', 
+    name: Administration,
+    component: Administration 
+  },
+  { path: '/productmodeling', 
+    name: ProductModeling,
+    component: ProductModeling 
   },
 ];
 

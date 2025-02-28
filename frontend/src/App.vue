@@ -12,13 +12,11 @@ export default {
 </script>
 
 <style>
+/* Reset some default styles */
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
-
-
-
 
 </style>
 

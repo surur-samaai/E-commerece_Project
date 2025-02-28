@@ -6,7 +6,7 @@
           <img src="/images/logo.png" alt="logo" id="logo" />
         </h1>
         <nav>
-          <router-link to="/home">Home</router-link>
+          <router-link to="/">Home</router-link>
           <router-link to="/shop">Shop</router-link>
           <router-link to="/articles">Articles</router-link>
           <router-link to="/plans">Subscriptions</router-link>
@@ -24,7 +24,7 @@
       <section class="hero">
         <h1>Premium Gym Apparel</h1>
         <p>Elevate your workout with our high-performance collection</p>
-        <button class="shop-now">Shop Now</button>
+        <button class="shop-now" @click="Products">Shop Now</button>
       </section>
 
       <section class="collections">
@@ -90,7 +90,7 @@
 
 <script>
 export default {
-  name:"ShopView",
+  name: "ShopView",
   data() {
     return {
       products: [
@@ -120,7 +120,12 @@ export default {
         }
       ]
     };
-  }
+  },
+  methods: {
+        Products() {
+            this.$router.push("/products");
+        },
+    }
 };
 </script>
 
@@ -140,6 +145,7 @@ header {
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
   align-items: center;
 }
+
 #logo {
   height: 80px;
   width: 80px;
@@ -148,6 +154,7 @@ header {
   border-radius: 50%;
   object-fit: cover;
 }
+
 .navbar-left {
   display: flex;
   align-items: center;
@@ -198,6 +205,7 @@ nav a:hover {
   padding: 5px 10px;
   border-radius: 5px;
 }
+
 .container {
   max-width: 1200px;
   margin: 20px auto;
@@ -205,6 +213,7 @@ nav a:hover {
   padding: 20px;
   border-radius: 8px;
 }
+
 .hero {
   padding: 50px;
   background-image: url("/public/images/Displays/apparel-hero.jpg");
@@ -216,8 +225,8 @@ nav a:hover {
   background-repeat: no-repeat;
   display: flex;
   border: 2px solid crimson;
-  flex-direction: column; 
-  justify-content: center; 
+  flex-direction: column;
+  justify-content: center;
   align-items: flex-start;
   text-align: left;
 }
@@ -302,6 +311,7 @@ h2 {
   text-align: center;
   width: 300px;
 }
+
 .product-item img {
   height: 100%;
   width: 100%;

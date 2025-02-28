@@ -7,7 +7,7 @@
         <img src="/images/logo.png" alt="logo" id="logo" />
       </h1>
       <nav>
-        <router-link to="/home">Home</router-link>
+        <router-link to="/">Home</router-link>
         <router-link to="/shop">Shop</router-link>
         <router-link to="/articles">Articles</router-link>
         <router-link to="/plans">Subscriptions</router-link>
@@ -30,7 +30,7 @@
         <h2>{{ video.title }}</h2>
         <p>{{ video.trainer }}</p>
         <p>{{ video.description }}</p>
-        <button>Watch</button>
+        <button>Play</button>
       </div>
     </div>
     <button class="back-button" @click="$router.push('/trainers')">
