@@ -30,7 +30,7 @@ const deleteUser = async (user_id) => {
 
 
 const updateUserDetails = async (user_id,{name,email,password,address,location_id,subscription_type}) => {
-    await pool.query("UPDATE users SET name = ?, email = ?, password = ?, address = ?, location_id = ?, subscription_type = ? WHERE user_id = ?", [name,address,email,password,location_id,subscription_type,user_id]);
+    await pool.query("UPDATE users SET name = ?, email = ?, password = ?, address = ?, location_id = ?, subscription_type = ? WHERE user_id = ?", [name,email,password,address,location_id,subscription_type,user_id]);
 }
 
 // const updateUserPassword = async (user_id,password) => {
