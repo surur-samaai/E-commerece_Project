@@ -5,10 +5,6 @@ const router = express.Router();
 
 router.get("/", getAllArticlesCon);
 
-// router.get("/date", getAllArticlesOrderByDateCon);
-
-// router.get("/author", getAllArticlesOrderByAuthorCon);
-
 router.get("/:article_id", getArticleByIdCon);
 
 router.post("/", addArticleCon);
