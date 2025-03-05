@@ -2,9 +2,9 @@
     <div v-if="isVisible" class="modal-overlay">
       <div class="modal-content">
         <span class="close" @click="closeModal">&times;</span>
-        <img :src="trainer.image" :alt="trainer.name" />
+        <img :src="trainer.image_url" :alt="trainer.name" />
         <h3>{{ trainer.name }}</h3>
-        <p>{{ trainer.specialty }}</p>
+        <p>{{ trainer.specialization }}</p>
         <button @click="Tutorials">View More</button>
       </div>
     </div>

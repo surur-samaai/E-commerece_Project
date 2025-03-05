@@ -23,8 +23,8 @@
             <div class="hero">
                 <div class="hero-text">
                     <h1>Your Complete Fitness Solution</h1>
-                    <p>All in one place.</p>
-                    <button @click="Login">Get Started</button>
+                    <p>All from the comfort of your home!</p>
+                    <button @click="Login">Subscribe Now</button>
                 </div>
             </div>
             <div class="categories">
@@ -36,7 +36,7 @@
             </div>
             <h2 class="tittle">Featured Products</h2>
             <div class="featured-products">
-                <div class="product" v-for="product in products" :key="product.product_id">  <img :src="product.image_url" alt="Product Image" />  <h3>{{ product.name }}</h3>  <p>{{ product.price }}</p>
+                <div class="product" v-for="product in products" :key="product.product_id">  <img :src="product.image_url" alt="Product Image" />  <h3>{{ product.name }}</h3>  <p>R{{ product.price }}</p>
                     <button @click="Login">Buy Now</button>
                 </div>
             </div>
