@@ -36,19 +36,14 @@
             </div>
             <h2 class="tittle">Featured Products</h2>
             <div class="featured-products">
-                <div class="product" v-for="product in products" :key="product.title">
-                    <img :src="product.image" alt="Product Image" />
-                    <h3>{{ product.title }}</h3>
-                    <p>{{ product.price }}</p>
+                <div class="product" v-for="product in products" :key="product.product_id">  <img :src="product.image_url" alt="Product Image" />  <h3>{{ product.name }}</h3>  <p>{{ product.price }}</p>
                     <button @click="Login">Buy Now</button>
                 </div>
             </div>
             <h2 class="tittle">Meet Our Trainers</h2>
         </div>
         <div class="wrapper">
-            <div class="card" v-for="trainer in trainers" :key="trainer.name">
-                <img :src="trainer.image" :alt="trainer.name" @click="openModal(trainer)" />
-            </div>
+            <div class="card" v-for="trainer in trainers" :key="trainer.trainer_id">  <img :src="trainer.image_url" :alt="trainer.name" @click="openModal(trainer)" />  </div>
         </div>
 
         <TrainerDetails v-if="selectedTrainer" :trainer="selectedTrainer" :isVisible="isModalVisible"
@@ -129,8 +124,6 @@ export default {
                     description: "Expert fitness guidance"
                 }
             ],
-            products: [], 
-            trainers: [], 
         };
     },
     computed: {
@@ -167,6 +160,9 @@ export default {
         // Dispatch Vuex actions when the component is mounted to fetch data
         this.getProducts(); // Dispatch the 'getProducts' action to fetch product data
         this.getPersonalTrainers(); // Dispatch the 'getPersonalTrainers' action to fetch trainer data
+
+        console.log("Products data in home.vue:", this.products);
+    console.log("Trainers data in home.vue:", this.trainers);
     }
 };
 </script>
