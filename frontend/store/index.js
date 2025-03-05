@@ -1,4 +1,5 @@
 import {createStore} from 'vuex'
+import { axios } from 'axios'
 
 export default createStore({
     state: {
@@ -54,22 +55,20 @@ export default createStore({
           },
     },
     actions: {
- //1 make function to fetch data
- async getUsers(context){
-    try {
-      
-      // let data = await (await  fetch('API URL/employees')).json
-      let data = await  fetch('http://localhost:3000/users')
-      let info = await  data.json()
-      //2 
-      console.log(info)
-      //3.3 //name of mutation, actual data from api
-      context.commit('setUsers',info)
-    } catch (error) {
+ //make function to fetch data
+ async getUsers(context) { 
+  try {
+      // Using axios.get to fetch users data from backend
+      const response = await axios.get('http://localhost:3000/users');
+      // axios automatically parses the JSON response
+      const usersData = response.data;
+      console.log("Users from backend:", usersData);
+      // Commit the mutation to set the 'store' state with the fetched users data
+      context.commit('setStore', usersData);
+  } catch (error) {
       console.error('Error fetching users:', error);
-
-    }
-  },
+  }
+},
 
   async getUserById(context, payload){
     try{
@@ -94,7 +93,7 @@ export default createStore({
     console.error('Error while deleting User:', error)
 }
   },
-  async addEmployee(context, payload){
+  async addUser(context, payload){
     try{
     await fetch('http://localhost:3000/users/',{
       method:'POST',
@@ -108,7 +107,7 @@ export default createStore({
         console.error('Error while adding User:', error)
     }
   },    
-  async updateEmployee(context, payload){
+  async updateUser(context, payload){
 try{
     await fetch('http://localhost:3000/users/'+ payload.user_id,{
       method:'PATCH',
@@ -122,17 +121,16 @@ try{
     console.error('Error while updating User:', error)
 }
   },
- async getArticles(context){
+  async getArticles(context) { 
     try {
-      let data = await  fetch('http://localhost:3000/articles')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setArticles',info)
+        const response = await axios.get('http://localhost:3000/articles');
+        const articlesData = response.data;
+        console.log("Articles from backend:", articlesData);
+        context.commit('setStore', articlesData);
     } catch (error) {
-      console.error('Error fetching Articles:', error);
-
+        console.error('Error fetching Articles:', error);
     }
-  },
+},
 
   async getArticleById(context, payload){
     try{
@@ -186,17 +184,19 @@ try{
 }
   },
 
- async getProducts(context){
+  async getProducts(context) { 
     try {
-      let data = await  fetch('http://localhost:3000/store')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setStore',info)
+        // Using axios.get to fetch product data from backend
+        const response = await axios.get('http://localhost:3000/store');
+        // axios automatically parses the JSON response
+        const productsData = response.data;
+        console.log("Products from backend:", productsData);
+        // Commit the mutation to set the 'store' state with the fetched product data
+        context.commit('setStore', productsData);
     } catch (error) {
-      console.error('Error fetching products from the Store:', error);
-
+        console.error('Error fetching products from the Store:', error);
     }
-  },
+},
 
   async getProductById(context, payload){
     try{
@@ -249,17 +249,16 @@ try{
     console.error('Error while updating product in Store:', error)
 }
   },
- async getAdmin(context){
+  async getAdmin(context) {
     try {
-      let data = await  fetch('http://localhost:3000/admin')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setAdmin',info)
+        const response = await axios.get('http://localhost:3000/admin');
+        const adminData = response.data;
+        console.log("Admin from backend:", adminData);
+        context.commit('setAdmin', adminData);
     } catch (error) {
-      console.error('Error fetching Admin:', error);
-
+        console.error('Error fetching Admin:', error);
     }
-  },
+},
 
   async getAdminById(context, payload){
     try{
@@ -310,17 +309,16 @@ try{
     console.error('Error while updating Admin:', error)
 }
   },
-  async getPersonalTrainers(context){
+  async getPersonalTrainers(context) {
     try {
-      let data = await  fetch('http://localhost:3000/personalTrainers')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setPersonalTrainers',info)
+        const response = await axios.get('http://localhost:3000/personalTrainers');
+        const trainersData = response.data;
+        console.log("Trainers from backend:", trainersData);
+        context.commit('setPersonalTrainers', trainersData);
     } catch (error) {
-      console.error('Error fetching Personal Trainers:', error);
-
+        console.error('Error fetching Personal Trainers:', error);
     }
-  },
+},
 
   async getPersonalTrainerById(context, payload){
     try{
@@ -371,17 +369,16 @@ try{
 }
   },
 
-  async getBookings(context){
+  async getBookings(context) {
     try {
-      let data = await  fetch('http://localhost:3000/bookings')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setBookings',info)
+        const response = await axios.get('http://localhost:3000/bookings');
+        const bookingData = response.data;
+        console.log("Bookings from backend:", bookingData);
+        context.commit('setBookings', bookingData);
     } catch (error) {
-      console.error('Error fetching Bookings:', error);
-
+        console.error('Error fetching Personal Trainers:', error);
     }
-  },
+},
 
   async getBookingById(context, payload){
     try{
@@ -435,17 +432,16 @@ try{
 }
   },
 
-  async getLocations(context){
+  async getLocation(context) {
     try {
-      let data = await  fetch('http://localhost:3000/locations')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setLocations',info)
+        const response = await axios.get('http://localhost:3000/locations');
+        const locationData = response.data;
+        console.log("Locations from backend:", locationData);
+        context.commit('setLocations', locationData);
     } catch (error) {
-      console.error('Error fetching Locations:', error);
-
+        console.error('Error fetching Locations:', error);
     }
-  },
+},
 
   async getLocationById(context, payload){
     try{
@@ -499,17 +495,16 @@ try{
 }
   },
 
-  async getOrderItems(context){
+  async getOrderItems(context) {
     try {
-      let data = await  fetch('http://localhost:3000/orderItems')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setOrderItems',info)
+        const response = await axios.get('http://localhost:3000/orderItems');
+        const orderItemsData = response.data;
+        console.log("Order Items from backend:", orderItemsData);
+        context.commit('setOrderItems', orderItemsData);
     } catch (error) {
-      console.error('Error fetching Order Items:', error);
-
+        console.error('Error fetching Order Items:', error);
     }
-  },
+},
 
   async getOrderItemsById(context, payload){
     try{
@@ -563,17 +558,16 @@ try{
 }
   },
 
-  async getOrders(context){
+  async getOrders(context) {
     try {
-      let data = await  fetch('http://localhost:3000/orders')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setOrders',info)
+        const response = await axios.get('http://localhost:3000/orders');
+        const orderData = response.data;
+        console.log("Orders from backend:", orderData);
+        context.commit('setOrders', orderData);
     } catch (error) {
-      console.error('Error fetching Orders:', error);
-
+        console.error('Error fetching Orders:', error);
     }
-  },
+},
 
   async getOrderById(context, payload){
     try{
@@ -627,17 +621,16 @@ try{
 }
   },
 
-  async getSubscriptions(context){
+  async getSubscriptions(context) {
     try {
-      let data = await  fetch('http://localhost:3000/subscription')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setSubscriptions',info)
+        const response = await axios.get('http://localhost:3000/subscription');
+        const subscriptionData = response.data;
+        console.log("Subscriptions from backend:", subscriptionData);
+        context.commit('setSubscriptions', subscriptionData);
     } catch (error) {
-      console.error('Error fetching Subscriptions:', error);
-
+        console.error('Error fetching Subscriptions:', error);
     }
-  },
+},
 
   async getSubscriptionById(context, payload){
     try{
@@ -689,17 +682,16 @@ try{
 }
   },
 
-  async getWorkoutVideos(context){
+  async getWorkoutVideos(context) {
     try {
-      let data = await  fetch('http://localhost:3000/workoutVideos')
-      let info = await  data.json()
-      console.log(info)
-      context.commit('setWorkoutVideos',info)
+        const response = await axios.get('http://localhost:3000/workoutVideos');
+        const workoutVideosData = response.data;
+        console.log("Workouts from backend:", workoutVideosData);
+        context.commit('setWorkoutVideos', workoutVideosData);
     } catch (error) {
-      console.error('Error fetching Workout Videos:', error);
-
+        console.error('Error fetching Workout Videos:', error);
     }
-  },
+},
 
   async getWorkoutVideoById(context, payload){
     try{

@@ -92,6 +92,7 @@
 
 <script>
 import TrainerDetails from '@/components/TrainerDetails.vue';
+import { mapState, mapActions } from 'vuex'; // Import mapState and mapActions from vuex
 
 export default {
     name: "HomeView",
@@ -100,7 +101,9 @@ export default {
     },
     data() {
         return {
-            categories: [
+            selectedTrainer: null,
+            isModalVisible: false,
+            categories: [ // Keeping your categories data as it is
                 {
                     image: "/images/Categories/category-gym equipment.jpg",
                     alt: "Equipment Image",
@@ -126,57 +129,28 @@ export default {
                     description: "Expert fitness guidance"
                 }
             ],
-            products: [
-                {
-                    image: "/images/Featured/dumbell.png",
-                    title: "Dumbbell",
-                    price: "R200.00 / month",
-                    buttonText: "Rent Now"
-                },
-                {
-                    image: "/images/Featured/Spinning bike.png",
-                    title: "Spinning Bike",
-                    price: "R5000.00 / month",
-                    buttonText: "Rent Now"
-                },
-                {
-                    image: "/images/Featured/treadmill.png",
-                    title: "Treadmill Monthly Rental",
-                    price: "R99 / month",
-                    buttonText: "Rent Now"
-                },
-                {
-                    image: "/images/Featured/all in one trainer.png",
-                    title: "Training Package (10 Sessions)",
-                    price: "R1,000.00",
-                    buttonText: "Book Now"
-                }
-            ],
-            trainers: [
-                {
-                    image: "/images/Trainers/T1.jpeg",
-                    name: "John Davis",
-                    specialty: "Strength Training Specialist",
-                    link: "trainers.html"
-                },
-                {
-                    image: "/images/Trainers/T2.jpeg",
-                    name: "Sarah Wilson",
-                    specialty: "Cardio & HIIT Expert",
-                    link: "trainers.html"
-                },
-                {
-                    image: "/images/Trainers/T3.jpeg",
-                    name: "Mike Johnson",
-                    specialty: "Nutrition & Wellness Coach",
-                    link: "trainers.html"
-                }
-            ],
-            selectedTrainer: null,  // Holds the currently selected trainer
-            isModalVisible: false,
+            products: [], 
+            trainers: [], 
         };
     },
+    computed: {
+        // Use mapState to connect Vuex state to computed properties
+        // products() { // Computed property 'products' that maps to 'store' state from Vuex
+        //     return this.$store.state.store;
+        // },
+        // trainers() { // Computed property 'trainers' that maps to 'personalTrainers' state from Vuex
+        //     return this.$store.state.personalTrainers;
+        // }
+        // You could also use mapState like this for more conciseness:
+        ...mapState({
+            products: state => state.store,
+            trainers: state => state.personalTrainers
+        })
+    },
     methods: {
+        // Use mapActions to map Vuex actions to component methods (optional, but cleaner)
+        ...mapActions(['getProducts', 'getPersonalTrainers']), // Map your Vuex actions
+
         openModal(trainer) {
             this.selectedTrainer = trainer;
             this.isModalVisible = true;
@@ -188,6 +162,11 @@ export default {
         Login() {
             this.$router.push("/login");
         },
+    },
+    mounted() {
+        // Dispatch Vuex actions when the component is mounted to fetch data
+        this.getProducts(); // Dispatch the 'getProducts' action to fetch product data
+        this.getPersonalTrainers(); // Dispatch the 'getPersonalTrainers' action to fetch trainer data
     }
 };
 </script>
