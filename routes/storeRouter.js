@@ -7,10 +7,6 @@ router.get("/", getAllProductsCon);
 
 router.get("/:product_id", getProductsByIdCon);
 
-// router.get("/supplier/:supplier", getProductsBySupplierCon);
-
-// router.get("/categories/:category", getProductsByCategoryCon);
-
 router.post("/", addProductCon);
 
 router.delete("/:product_id", deleteProductCon);
