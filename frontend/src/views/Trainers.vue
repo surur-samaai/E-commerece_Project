@@ -1,139 +1,151 @@
 <template>
-  <div id="body">
-    <header>
-      <div class="navbar-left">
-        <h1>
-          <img src="/images/logo.png" alt="logo" id="logo" />
-        </h1>
-        <nav>
-          <router-link to="/">Home</router-link>
-          <router-link to="/shop">Shop</router-link>
-          <router-link to="/articles">Articles</router-link>
-          <router-link to="/plans">Subscriptions</router-link>
-        </nav>
-      </div>
+    <div id="body">
+        <header>
+            <div class="navbar-left">
+                <h1>
+                    <img src="/images/logo.png" alt="logo" id="logo" />
+                </h1>
+                <nav>
+                    <router-link to="/">Home</router-link>
+                    <router-link to="/shop">Shop</router-link>
+                    <router-link to="/articles">Articles</router-link>
+                    <router-link to="/plans">Subscriptions</router-link>
+                </nav>
+            </div>
 
-      <div class="navbar-right">
-        <button class="login-btn">Log In</button>
-      </div>
-    </header>
-    <div class="hero">
-      <h2>Our Expert Trainers</h2>
-      <p>Meet the professionals who will guide you to your fitness goals</p>
+            <div class="navbar-right">
+                <button class="login-btn">Log In</button>
+            </div>
+        </header>
+        <div class="hero">
+            <h2>Our Expert Trainers</h2>
+            <p>Meet the professionals who will guide you to your fitness goals</p>
+        </div>
+        <div class="container">
+            <div class="card" v-for="trainer in trainers" :key="trainer.trainer_id">  <img :src="trainer.image_url" :alt="trainer.name" />  <h3>{{ trainer.name }}</h3>  <p>💪 Specializes in: {{ trainer.specialization }}</p>  <p>🏅 {{ trainer.experience }} Years Experience</p>  <p>📞 Get in Contact: {{ trainer.email }}</p> <div class="social-icons">
+                    <a :href="trainer.instagram" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a :href="trainer.facebook" target="_blank">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+                <router-link :to="{ name: 'Tutorials' }">
+                    <button class="button">Watch Tutorials</button>
+                </router-link>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h2>PrimeFit</h2>
+                    <p>
+                        Your complete fitness solution for equipment, apparel, rentals, and
+                        training.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><router-link to="/about">About Us</router-link></li>
+                        <li><router-link to="/contact">Contact</router-link></li>
+                        <li><router-link to="/faq">FAQ</router-link></li>
+                        <li><router-link to="/terms">Terms & Conditions</router-link></li>
+                        <li><router-link to="/privacy">Privacy Policy</router-link></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="social-links">
+                        <li>
+                            <a href="#" target="_blank">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <i class="fab fa-youtube"></i> YouTube
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr />
+            <div class="footer-bottom">
+                <p> 2025 PrimeFit. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
-    <div class="container">
-      <div class="card" v-for="trainer in trainers" :key="trainer.id">
-        <img :src="trainer.image" :alt="trainer.name" />
-        <h3>{{ trainer.name }}</h3>
-        <p>{{ trainer.specialty }}</p>
-        <p>🏅 {{ trainer.experience }}+ Years Experience</p>
-        <p>{{ trainer.description }}</p>
-        <div class="social-icons">
-          <a :href="trainer.instagram" target="_blank">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a :href="trainer.facebook" target="_blank">
-            <i class="fab fa-facebook"></i>
-          </a>
-        </div>
-        <router-link :to="{ name: 'Tutorials' }">
-            <button class="button">Watch Tutorials</button>
-          </router-link>
-      </div>
-    </div>
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h2>PrimeFit</h2>
-          <p>
-            Your complete fitness solution for equipment, apparel, rentals, and
-            training.
-          </p>
-        </div>
-        <div class="footer-section">
-          <h3>Quick Links</h3>
-          <ul>
-            <li><router-link to="/about">About Us</router-link></li>
-            <li><router-link to="/contact">Contact</router-link></li>
-            <li><router-link to="/faq">FAQ</router-link></li>
-            <li><router-link to="/terms">Terms & Conditions</router-link></li>
-            <li><router-link to="/privacy">Privacy Policy</router-link></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3>Connect</h3>
-          <ul class="social-links">
-            <li>
-              <a href="#" target="_blank">
-                <i class="fab fa-instagram"></i> Instagram
-              </a>
-            </li>
-            <li>
-              <a href="#" target="_blank">
-                <i class="fab fa-facebook-f"></i> Facebook
-              </a>
-            </li>
-            <li>
-              <a href="#" target="_blank">
-                <i class="fab fa-youtube"></i> YouTube
-              </a>
-            </li>
-            <li>
-              <a href="#" target="_blank">
-                <i class="fab fa-twitter"></i> Twitter
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <hr />
-      <div class="footer-bottom">
-        <p> 2025 PrimeFit. All rights reserved.</p>
-      </div>
-    </footer>
-  </div>
+
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'; // Import mapState and mapActions from vuex
+
 export default {
-  name: "TrainersView",
-  data() {
-    return {
-      trainers: [
-        {
-          id: 1,
-          name: "John Davis",
-          specialty: "Strength & Conditioning",
-          experience: 10,
-          description:
-            "Specialized in strength training and athletic performance enhancement.",
-          image: "/images/Trainers/T1.jpeg",
-          instagram: "#",
-          facebook: "#",
-        },
-        {
-          id: 2,
-          name: "Sarah Wilson",
-          specialty: "Yoga & Pilates",
-          experience: 8,
-          description: "Expert in mindful movement and body awareness training.",
-          image: "/images/Trainers/T2.jpeg",
-          instagram: "#",
-          facebook: "#",
-        },
-        {
-          id: 3,
-          name: "Mike Johnson",
-          specialty: "CrossFit Expert",
-          experience: 12,
-          description: "CrossFit champion and functional training specialist.",
-          image: "/images/Trainers/T3.jpeg",
-          instagram: "#",
-          facebook: "#",
-        },
-      ],
-    };
-  },
+    name: "TrainersView",
+    data() {
+        return {
+            // Remove the static trainers array from data() - we will get trainers from Vuex now
+            // trainers: [
+            //     {
+            //         id: 1,
+            //         name: "John Davis",
+            //         specialty: "Strength & Conditioning",
+            //         experience: 10,
+            //         description:
+            //             "Specialized in strength training and athletic performance enhancement.",
+            //         image: "/images/Trainers/T1.jpeg",
+            //         instagram: "#",
+            //         facebook: "#",
+            //     },
+            //     {
+            //         id: 2,
+            //         name: "Sarah Wilson",
+            //         specialty: "Yoga & Pilates",
+            //         experience: 8,
+            //         description: "Expert in mindful movement and body awareness training.",
+            //         image: "/images/Trainers/T2.jpeg",
+            //         instagram: "#",
+            //         facebook: "#",
+            //     },
+            //     {
+            //         id: 3,
+            //         name: "Mike Johnson",
+            //         specialty: "CrossFit Expert",
+            //         experience: 12,
+            //         description: "CrossFit champion and functional training specialist.",
+            //         image: "/images/Trainers/T3.jpeg",
+            //         instagram: "#",
+            //         facebook: "#",
+            //     },
+            // ],
+        };
+    },
+    computed: {
+        // Use mapState to connect Vuex state to computed property 'trainers'
+        ...mapState({
+            trainers: state => state.personalTrainers // Maps to 'personalTrainers' state in Vuex
+        })
+    },
+    methods: {
+        // Use mapActions to map Vuex action 'getPersonalTrainers' to a component method (optional)
+        ...mapActions(['getPersonalTrainers']),
+    },
+    mounted() {
+        // Dispatch the Vuex action to fetch trainers when the component is mounted
+        this.getPersonalTrainers();
+    },
 };
 </script>
 
