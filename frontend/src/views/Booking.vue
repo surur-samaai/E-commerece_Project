@@ -1,64 +1,64 @@
 <template>
   <div id="body">
-  <div class="container">
-    <h1>Book Your Class</h1>
-    <p class="subtitle">Choose from our wide range of fitness classes</p>
+    <div class="container">
+      <h1>Book Your Class</h1>
+      <p class="subtitle">Choose from our wide range of fitness classes</p>
 
-    <div class="booking-wrapper">
-      <!-- Filters Section -->
-      <div class="filters">
-        <h2>Filters</h2>
-        <label for="date">Date</label>
-        <input type="date" id="date" v-model="date" />
+      <div class="booking-wrapper">
+        <!-- Filters Section -->
+        <div class="filters">
+          <h2>Filters</h2>
+          <label for="date">Date</label>
+          <input type="date" id="date" v-model="date" />
 
-        <label for="classType">Class Type</label>
-        <select id="classType" v-model="classType">
-          <option value="all">All Classes</option>
-          <option value="hiit">HIIT Workout</option>
-          <option value="yoga">Yoga Flow</option>
-          <option value="strength">Strength Training</option>
-        </select>
+          <label for="classType">Class Type</label>
+          <select id="classType" v-model="classType">
+            <option value="all">All Classes</option>
+            <option value="hiit">HIIT Workout</option>
+            <option value="yoga">Yoga Flow</option>
+            <option value="strength">Strength Training</option>
+          </select>
 
-        <label for="trainer">Trainer</label>
-        <select id="trainer" v-model="trainer">
-          <option value="any">Any Trainer</option>
-          <option value="john">John Smith</option>
-          <option value="sarah">Sarah Johnson</option>
-          <option value="mike">Mike Wilson</option>
-        </select>
+          <label for="trainer">Trainer</label>
+          <select id="trainer" v-model="trainer">
+            <option value="any">Any Trainer</option>
+            <option value="john">John Smith</option>
+            <option value="sarah">Sarah Johnson</option>
+            <option value="mike">Mike Wilson</option>
+          </select>
 
-        <label for="time">Time</label>
-        <select id="time" v-model="time">
-          <option value="any">Any Time</option>
-          <option value="morning">Morning</option>
-          <option value="afternoon">Afternoon</option>
-          <option value="evening">Evening</option>
-        </select>
-      </div>
+          <label for="time">Time</label>
+          <select id="time" v-model="time">
+            <option value="any">Any Time</option>
+            <option value="morning">Morning</option>
+            <option value="afternoon">Afternoon</option>
+            <option value="evening">Evening</option>
+          </select>
+        </div>
 
-      <!-- Class List -->
-      <div class="class-list">
-        <div class="class-card" v-for="classInfo in filteredClasses" :key="classInfo.id">
-          <div class="class-info">
-            <h3>{{ classInfo.name }}</h3>
-            <p class="trainer">with {{ classInfo.trainer }}</p>
-            <p class="spots">👥 {{ classInfo.spots }} spots left</p>
-          </div>
-          <div class="class-time">
-            <p class="time">{{ classInfo.time }}</p>
-            <p class="duration">{{ classInfo.duration }} mins</p>
-            <button class="book-btn" @click="bookClass(classInfo)">Book Now</button>
+        <!-- Class List -->
+        <div class="class-list">
+          <div class="class-card" v-for="classInfo in filteredClasses" :key="classInfo.id">
+            <div class="class-info">
+              <h3>{{ classInfo.name }}</h3>
+              <p class="trainer">with {{ classInfo.trainer }}</p>
+              <p class="spots">👥 {{ classInfo.spots }} spots left</p>
+            </div>
+            <div class="class-time">
+              <p class="time">{{ classInfo.time }}</p>
+              <p class="duration">{{ classInfo.duration }} mins</p>
+              <button class="book-btn" @click="bookClass(classInfo)">Book Now</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 export default {
-  name:"BookingView",
+  name: "BookingView",
   data() {
     return {
       date: "",
@@ -99,18 +99,17 @@ export default {
   computed: {
     filteredClasses() {
       return this.classes.filter((classInfo) => {
-        if (this.classType === "all" && this.trainer === "any" && this.time === "any") {
-          return true;
-        }
-
-        if (this.classType !== "all" && classInfo.type !== this.classType) {
+        // Filter by class type
+        if ( this.classType !== "all" && classInfo.type !== this.classType) {
           return false;
         }
 
+        // Filter by trainer
         if (this.trainer !== "any" && classInfo.trainer !== this.trainer) {
           return false;
         }
 
+        // Filter by time
         if (this.time !== "any" && !this.getTimeRange(classInfo.time).includes(this.time)) {
           return false;
         }
@@ -122,6 +121,7 @@ export default {
   methods: {
     bookClass(classInfo) {
       console.log(`Booking class: ${classInfo.name} with ${classInfo.trainer}`);
+      // You can add a confirmation message or redirect logic here
     },
     getTimeRange(time) {
       const timeParts = time.split(" ");
@@ -129,17 +129,9 @@ export default {
       const period = timeParts[1];
 
       if (period === "AM") {
-        if (hour < 12) {
-          return ["morning"];
-        } else {
-          return ["afternoon"];
-        }
+        return hour < 12 ? ["morning"] : ["afternoon"];
       } else {
-        if (hour < 18) {
-          return ["afternoon"];
-        } else {
-          return ["evening"];
-        }
+        return hour < 6 ? ["afternoon"] : ["evening"];
       }
     },
   },

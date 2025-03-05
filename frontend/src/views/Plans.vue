@@ -101,6 +101,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: "PlansView",
   data() {
@@ -112,44 +114,10 @@ export default {
         { id: '24-month', label: '24 Months' },
         { id: '36-month', label: '36 Months' },
       ],
-      plans: [
-        {
-          name: 'Basic',
-          price: 'R500/month',
-          features: [
-            '✔ 3 pieces of equipment',
-            '✔ Monthly maintenance',
-            '✔ Workout Videos',
-          ],
-        },
-        {
-          name: 'Pro',
-          price: 'R1 250/month',
-          features: [
-            '✔ 5 pieces of equipment',
-            '✔ Gym Clothing',
-            '✔ Sports nutrition',
-            '✔ Free Monthly Accessories',
-          ],
-        },
-        {
-          name: 'Premium',
-          price: 'R2 500/month',
-          features: [
-            '✔ 7 pieces of equipment',
-            '✔ Free Delivery',
-            '✔ Gym Clothing',
-            '✔ Personal training session + Sports nutrition',
-          ],
-        },
-      ],
-      reasons: [
-        { icon: '🚚', title: 'Free Delivery', description: 'We deliver and install all equipment' },
-        { icon: '🔧', title: 'Regular Maintenance', description: 'Keep the equipment in perfect condition' },
-        { icon: '🔄', title: 'Flexible Swaps', description: 'Exchange equipment whenever you want' },
-        { icon: '🤝', title: 'Expert Support', description: 'Get help from our fitness specialists' },
-      ],
     };
+  },
+  computed: {
+    ...mapGetters(['plans']),
   },
   methods: {
     setActiveDuration(duration) {
@@ -160,94 +128,12 @@ export default {
       this.selectedPlan = planName;
     },
     updatePlans() {
-      const prices = {
-        '12-month': {
-          Basic: 'R500/month',
-          Pro: 'R1 250/month',
-          Premium: 'R2 500/month',
-        },
-        '24-month': {
-          Basic: 'R450/month',
-          Pro: 'R1 125/month',
-          Premium: 'R2 250/month',
-        },
-        '36-month': {
-          Basic: 'R400/month',
-          Pro: 'R1 000/month',
-          Premium: 'R2 000/month',
-        },
-      };
-
-      const features = {
-        '12-month': [
-          [
-            '✔ 3 pieces of equipment',
-            '✔ Monthly maintenance',
-            '✔ Workout Videos',
-          ],
-          [
-            '✔ 5 pieces of equipment',
-            '✔ Gym Clothing',
-            '✔ Sports nutrition',
-            '✔ Free Monthly Accessories',
-          ],
-          [
-            '✔ 7 pieces of equipment',
-            '✔ Free Delivery',
-            '✔ Gym Clothing',
-            '✔ Personal training session + Sports nutrition',
-          ],
-        ],
-        '24-month': [
-          [
-            '✔ 4 pieces of equipment',
-            '✔ Bi-Monthly maintenance',
-            '✔ Workout Videos + Diet Plan',
-          ],
-          [
-            '✔ 6 pieces of equipment',
-            '✔ Gym Clothing + Extra Accessories',
-            '✔ Personalized Nutrition Plan',
-            '✔ Free Gym Bag',
-          ],
-          [
-            '✔ 8 pieces of equipment',
-            '✔ Priority Free Delivery',
-            '✔ Gym Clothing & Shoes',
-            '✔ 2 Personal training sessions + Custom Sports Nutrition Plan',
-          ],
-        ],
-        '36-month': [
-          [
-            '✔ 5 pieces of equipment',
-            '✔ Quarterly maintenance',
-            '✔ Workout Videos + Advanced Diet Plan',
-          ],
-          [
-            '✔ 7 pieces of equipment',
-            '✔ Premium Gym Clothing & Accessories',
-            '✔ Custom Nutrition & Workout Plan',
-            '✔ Free Supplements Starter Pack',
-          ],
-          [
-            '✔ 10 pieces of equipment',
-            '✔ Priority Express Free Delivery',
-            '✔ Full Premium Gym Outfit',
-            '✔ 4 Personal training sessions + Elite Sports Nutrition Plan',
-          ],
-        ],
-      };
-
-      const duration = this.activeDuration;
-
-      this.plans.forEach((plan, index) => {
-        plan.price = prices[duration][plan.name];
-        plan.features = features[duration][index];
-      });
+      // This method can be adjusted if you want to change prices or features based on duration
+      // For now, we will just use the data fetched from the API
     },
   },
   mounted() {
-    this.updatePlans();
+    this.$store.dispatch('fetchPlans'); // Fetch plans when component is mounted
   },
 };
 </script>

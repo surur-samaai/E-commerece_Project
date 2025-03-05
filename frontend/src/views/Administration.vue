@@ -1,4 +1,5 @@
 <template>
+    <ProductModal />
     <div id="body">
         <header>
             <div class="navbar-left">
@@ -10,7 +11,7 @@
                 </nav>
             </div>
             <div class="navbar-right">
-                <button class="login-btn" @click="Login">Log In</button>
+                <button class="login-btn" @click="login">Log In</button>
             </div>
         </header>
 
@@ -30,17 +31,16 @@
             </div>
         </div>
 
-        <ProductModeling v-if="isModalVisible" :product="selectedProduct" @close="closeModal" @save="saveProduct" />
+        <ProductModal v-if="isModalVisible" :product="selectedProduct" @close="closeModal" @save="saveProduct" />
     </div>
 </template>
-
 <script>
-import ProductModeling from "@/components/ProductModeling.vue";
+import ProductModal from "@/components/ProductModal.vue";
 
 export default {
     name: "AdminView",
     components: {
-        ProductModeling,
+        ProductModal,
     },
     data() {
         return {
@@ -52,41 +52,12 @@ export default {
     methods: {
 
         async fetchProducts() {
-            // Dummy data for testing
-            this.products = [
-                {
-                    id: 1,
-                    name: "Adjustable Dumbbell Set",
-                    description: "This is the description for product 1.",
-                    price: "R10.00",
-                    category: "Electronics",
-                    images: "/images/products/Gym-Equipment/adjustable dumbell.jpg",
-                },
-                {
-                    id: 2,
-                    name: "Adjustable Bench",
-                    description: "This is the description for product 2.",
-                    price: "R20.00",
-                    category: "Clothing",
-                    images: "/images/products/Gym-Equipment/adjustable-bench.jpg",
-                },
-                {
-                    id: 3,
-                    name: "Horizon 3.0SC Indoor Cycle",
-                    description: "This is the description for product 3.",
-                    price: "R30.00",
-                    category: "Books",
-                    images: "/images/products/Gym-Equipment/horizon.jpg",
-                },
-                {
-                    id: 4,
-                    name: "Horizon EX59 Elliptical",
-                    description: "This is the description for product 4.",
-                    price: "R40.00",
-                    category: "Accessories",
-                    images: "/images/products/Gym-Equipment/horizon_ex59.jpg",
-                },
-            ];
+            try {
+                await this.$store.dispatch("fetchProducts");
+                this.products = this.$store.state.products;
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
         },
         showAddProductModal() {
             this.selectedProduct = { id: null, title: "", price: "", image: "" };
@@ -98,16 +69,22 @@ export default {
         },
 
         async deleteProduct(productId) {
-            this.products = this.products.filter((p) => p.id !== productId);
+            try {
+                await this.$store.dispatch("deleteProduct", productId);
+                this.products = this.products.filter((p) => p.id !== productId);
+            } catch (error) {
+                console.error("Error deleting product:", error);
+            }
         },
 
         async saveProduct(product) {
             try {
                 if (product.id) {
-                    // Update product logic here (if needed)
+
+                    await this.$store.dispatch("updateProduct", product);
                 } else {
-                    // Add new product logic here (if needed)
-                    product.id = this.products.length + 1; // Simulate adding a new product
+
+                    await this.$store.dispatch("addProduct", product);
                     this.products.push(product);
                 }
                 this.closeModal();
@@ -121,11 +98,10 @@ export default {
         },
     },
     mounted() {
-        this.fetchProducts(); // Load dummy data on component mount
+        this.fetchProducts();
     },
 };
 </script>
-
 
 <style scoped>
 #body {

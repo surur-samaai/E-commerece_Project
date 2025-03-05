@@ -116,7 +116,7 @@ export default {
           id: 4,
           name: "Own the Run Leggings",
           price: "R34.99",
-          image: "/images/Featured/men-legg ings.jpeg"
+          image: "/images/Featured/men-leggings.jpeg"
         }
       ]
     };

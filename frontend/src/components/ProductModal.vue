@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    name: "ProductModelingView",
+    name: "ProductModalView",
     props: {
         product: {
             type: Object,

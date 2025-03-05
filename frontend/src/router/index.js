@@ -12,7 +12,7 @@ import Trainers from '../views/Trainers.vue';
 import Tutorials from '../views/Tutorials.vue';
 import TrainerDetails from '../components/TrainerDetails.vue';
 import Administration from '../views/Administration.vue';
-import ProductModeling from '../components/ProductModeling.vue';
+import ProductModal from '../components/ProductModal.vue';
 
 const routes = [
   { path: '/',
@@ -67,9 +67,9 @@ const routes = [
     name: Administration,
     component: Administration 
   },
-  { path: '/productmodeling', 
-    name: ProductModeling,
-    component: ProductModeling 
+  { path: '/productmodal', 
+    name: ProductModal,
+    component: ProductModal 
   },
 ];
 

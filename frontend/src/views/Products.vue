@@ -43,7 +43,7 @@
           <h2>{{ product.name }}</h2>
           <span>R{{ product.price.toFixed(2) }}</span>
           <a href="#" class="view-product" @click.prevent="showProductDetails(product)">View Product</a>
-          <button @click="addToCart(product)">Add to Cart</button>
+          <button @click="addToCart(product.name)">Add to Cart</button>
         </div>
       </div>
     </div>
@@ -113,15 +113,16 @@
             </table>
           </div>
           <span>R{{ selectedProduct.price.toFixed(2) }}</span>
-          <button @click="addToCart(product)">Add to Cart</button>
+          <button @click="addToCart(products.name)">Add to Cart</button>
         </div>
         <div class="modal-right">
-          <div v-for="(image, index) in selectedProduct.images.slice(1, 3)" :key="index">
+          <div v-for="(image, index) in selectedProduct.images.slice(1)" :key="index">
             <img :src="image" :alt="selectedProduct.name + ' image ' + (index + 2)" />
           </div>
         </div>
       </div>
     </div>
+    <div v-if="toastMessage" class="toast">{{ toastMessage }}</div>
   </div>
 </template>
 
@@ -134,12 +135,13 @@ export default {
       activeTab: "All Products",
       sortOption: "all",
       selectedProduct: null,
+      toastMessage: "",
       showModal: false,
-      Products: [
+      products: [
         // Gym Equipment
         {
           name: "Adjustable Dumbbell Set",
-          description: "No matter how you train, our adjustable dumbbells make getting a complete workout smoother than you ever imagined. Weight: 21 kg. Dimensions: 40.5 × 19 × 17.8 cm. Set Includes: 2x 20-kg Dumbbells, 2 Cradles.",
+          description: "Run with the wind in our Full-Length Running Tights.:Constructed with improved stretch for added comfort and ease of mobility. :Offer fitted support with next-to-skin comfort. :Full-length. :Reflective detail makes you more visible in low light conditions.",
           price: 15.373,
           category: "Gym Equipment",
           images: [
@@ -345,50 +347,34 @@ export default {
   },
   computed: {
     filteredProducts() {
-      let filteredProducts = [];
+      let filtered = this.activeTab === "All Products"
+        ? this.products
+        : this.products.filter(product => product.category === this.activeTab);
 
-
-      if (this.activeTab === "All Products") {
-        filteredProducts = this.Products; // Include all products
-      } else {
-        filteredProducts = this.Products.filter(
-          (product) => product.category === this.activeTab
-        );
-      }
-
-      // Apply sorting
       switch (this.sortOption) {
         case "priceLow":
-          return filteredProducts.sort((a, b) => a.price - b.price);
+          return filtered.slice().sort((a, b) => a.price - b.price);
         case "priceHigh":
-          return filteredProducts.sort((a, b) => b.price - a.price);
-        case "all":
+          return filtered.slice().sort((a, b) => b.price - a.price);
         default:
-          return filteredProducts; // Keep as-is (or apply any other featured sorting logic)
+          return filtered;
       }
     },
 
     formattedDetails() {
-      if (!this.selectedProduct || !this.selectedProduct.description) { 
-        return {paragraph: '', details: [] };
+      if (!this.selectedProduct || !this.selectedProduct.description) {
+        return { paragraph: "", details: [] };
       }
 
-      const detailsArray = this.selectedProduct.description.split('.'); // Split before letters
-      
-      // Extracting the paragraph (first part of the description)
-      const paragraph = detailsArray[0].trim();
-      const details = [];
-
-      // Process the remaining details
-      for (let i = 1; i < detailsArray.length; i++) {
-      const detail = detailsArray[i].trim();
-      if (detail) {
-        const [label, value] = detail.split(':').map(item => item.trim());
-        if (label && value) {
-          details.push({ label, value });
-        }
-      }
-    }
+      // Splitting description on ". " assuming structured data
+      const detailsArray = this.selectedProduct.description.split(". ");
+      const paragraph = detailsArray.shift(); // First part as a paragraph
+      const details = detailsArray
+        .map(detail => {
+          const [label, value] = detail.split(":").map(item => item.trim());
+          return label && value ? { label, value } : null;
+        })
+        .filter(item => item); // Remove null values
 
       return { paragraph, details };
     }
@@ -397,19 +383,43 @@ export default {
     updateProductDisplay(tab) {
       this.activeTab = tab;
     },
-    addToCart(product) {
-      console.log("Product Added to Cart:", product.name);
+
+    addToCart(productName) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const product = this.products.find(item => item.name === productName);
+      if (product) {
+        let existingProduct = cart.find(item => item.name === product.name);
+        if (existingProduct) {
+          existingProduct.quantity += 1;
+        } else {
+          cart.push({ ...product, quantity: 1 });
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        this.showToast(`${product.name} added to cart!`);
+        setTimeout(() => {
+          this.$router.push("/cart");
+        }, 2000);
+      }
     },
+
     showProductDetails(product) {
       this.selectedProduct = product;
       this.showModal = true;
     },
+
     closeModal() {
       this.showModal = false;
+      this.selectedProduct = null;
     },
-  },
+
+    showToast(message) {
+      this.toastMessage = message;
+      setTimeout(() => (this.toastMessage = ""), 3000);
+    }
+  }
 };
 </script>
+
 
 <style scoped>
 #body {
@@ -563,6 +573,7 @@ h1 {
   height: 100%;
 }
 
+
 .product-card span {
   margin: left;
   font-size: 18px;
@@ -594,6 +605,32 @@ h1 {
   max-height: 100%;
   object-fit: cover;
   border-radius: 8px;
+}
+
+/* Toast Styling */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-size: 16px;
+  z-index: 1000;
+  animation: fade-in 0.3s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 button {
