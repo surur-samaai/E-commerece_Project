@@ -30,7 +30,7 @@
       <section class="collections">
         <div class="collection-item collection-1">
           <h2>Gym Attire</h2>
-          <button>Shop Apparel</button>
+          <button>Shop Apparels</button>
         </div>
         <div class="collection-item collection-2">
           <h2>Equipment</h2>
