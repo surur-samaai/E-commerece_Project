@@ -113,7 +113,7 @@
             </table>
           </div>
           <span>R{{ selectedProduct.price }}</span>
-          <button @click="addToCart(products.name)">Add to Cart</button>
+          <button @click="addToCart(selectedProduct.name)">Add to Cart</button>
         </div>
         <div class="modal-right">
           <div v-for="(image, index) in selectedProduct.image_url.images.slice(1)" :key="index">

@@ -6,11 +6,11 @@
         <div id="cart-items">
           <div v-if="cart.length === 0" class="empty">Your cart is empty.</div>
           <div v-for="(product, index) in cart" :key="index" class="product">
-            <img class="product-image" :src="product.images[0]" :alt="product.name" />
+            <img class="product-image" :src="product.image_url.images[0]" :alt="product.name" />
             <div class="product-details">
               <h2>{{ product.name }}</h2>
-              <p>{{ product.supplier }}</p>
-              <span class="price">R{{ product.price.toFixed(2) }}</span>
+              <p>Supplier: {{ product.supplier }}</p>
+              <span>R{{ (product.price * 1000).toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
             </div>
             <div class="quantity-controls">
               <button @click="decreaseQuantity(index)">-</button>
@@ -122,6 +122,14 @@ export default {
       }
     },
   },
+  watch: {
+    cart(newCart) {
+      localStorage.setItem("cart", JSON.stringify(newCart)); // Sync cart changes to localStorage
+    },
+  },
+  created() {
+    this.cart = JSON.parse(localStorage.getItem("cart")) || []; // Retrieve cart data when component is created
+  },
 };
 </script>
 
@@ -145,6 +153,7 @@ h1 {
   display: flex;
   background: linear-gradient(to bottom, #ffffff, #f4f4f4);
   padding: 20px;
+  height: 500px;
   border-radius: 15px;
   gap: 20px;
 }
@@ -152,7 +161,7 @@ h1 {
   width: 80%;
   border-radius: 20px;
   padding: 20px;
-  height: 400px;
+  height: fit-content;
   border: 1px solid crimson;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
