@@ -7,10 +7,6 @@ router.get("/", getAllSubscriptionsCon);
 
 router.get("/:subscription_id", getSubscriptionByIdCon);
 
-// router.get("/name/:name", getSubscriptionsByNameCon);
-
-// router.get("/duration/:duration_months", getSubscriptionsByDurationCon);
-
 router.post("/", addSubscriptionCon);
 
 router.delete("/:subscription_id", deleteSubscriptionCon);
