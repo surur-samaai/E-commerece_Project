@@ -38,10 +38,10 @@
       <div class="products">
         <div class="product-card" v-for="product in filteredProducts" :key="product.name">
           <div class="product-image">
-            <img :src="product.images[0]" :alt="product.name" />
+            <img v-bind:src="product.image_url.images[0]" :alt="product.name" />
           </div>
           <h2>{{ product.name }}</h2>
-          <span>R{{ product.price.toFixed(2) }}</span>
+          <span>R{{ (product.price * 1000).toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
           <a href="#" class="view-product" @click.prevent="showProductDetails(product)">View Product</a>
           <button @click="addToCart(product.name)">Add to Cart</button>
         </div>
@@ -112,11 +112,11 @@
               </tbody>
             </table>
           </div>
-          <span>R{{ selectedProduct.price.toFixed(2) }}</span>
+          <span>R{{ selectedProduct.price }}</span>
           <button @click="addToCart(products.name)">Add to Cart</button>
         </div>
         <div class="modal-right">
-          <div v-for="(image, index) in selectedProduct.images.slice(1)" :key="index">
+          <div v-for="(image, index) in selectedProduct.image_url.images.slice(1)" :key="index">
             <img :src="image" :alt="selectedProduct.name + ' image ' + (index + 2)" />
           </div>
         </div>
@@ -125,8 +125,10 @@
     <div v-if="toastMessage" class="toast">{{ toastMessage }}</div>
   </div>
 </template>
-
 <script>
+
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: "ProductsView",
   data() {
@@ -137,219 +139,23 @@ export default {
       selectedProduct: null,
       toastMessage: "",
       showModal: false,
-      products: [
-        // Gym Equipment
-        {
-          name: "Adjustable Dumbbell Set",
-          description: "Run with the wind in our Full-Length Running Tights.:Constructed with improved stretch for added comfort and ease of mobility. :Offer fitted support with next-to-skin comfort. :Full-length. :Reflective detail makes you more visible in low light conditions.",
-          price: 15.373,
-          category: "Gym Equipment",
-          images: [
-            "/images/products/Gym-Equipment/adjustable dumbell.jpg",
-            "/images/products/Gym-Equipment/dumbell-1.jpg",
-            "/images/products/Gym-Equipment/dumbell-2.jpg",
-          ],
-        },
-        {
-          name: "Adjustable Bench",
-          description: "Bring commercial-rated toughness and club-quality function to your home with our stylish Multi-adjustable Bench. Weight:	36 kg. Dimensions:	142.4 × 77.5 × 43.7 cm. Bench Height: 44cm. Backrest Adjustment Range: 5 Position Angles: 0, 30, 45, 60, 75. Seat Adjustment Range:	2 Position Angles; 0, 20.",
-          price: 11.999,
-          category: "Gym Equipment",
-          images: [
-            "/images/products/Gym-Equipment/adjustable-bench.jpg",
-            "/images/products/Gym-Equipment/bench-1.jpg",
-            "/images/products/Gym-Equipment/bench-2.jpg",
-          ],
-        },
-        {
-          name: "Horizon 3.0SC Indoor Cycle",
-          description: "Set of kettlebells for full-body workout",
-          price: 12.999,
-          category: "Gym Equipment",
-          images: [
-            "/images/products/Gym-Equipment/horizon.jpg",
-            "/images/products/Gym-Equipment/horizon-1.jpg",
-            "/images/products/Gym-Equipment/horizon-2.jpg",
-          ],
-        },
-        {
-          name: "Horizon EX59 Elliptical",
-          description: "Space-saving adjustable dumbbell set",
-          price: 18.900,
-          category: "Gym Equipment",
-          images: [
-            "/images/products/Gym-Equipment/horizon_ex59.jpg",
-            "/images/products/Gym-Equipment/horizon_ex59-1.jpg",
-            "/images/products/Gym-Equipment/horizon_ex59-2.jpg",
-          ],
-        },
-        {
-          name: "Horizon TR5 Treadmill",
-          description: "Complete barbell set with weights",
-          price: 15.599,
-          category: "Gym Equipment",
-          images: [
-            "/images/products/Gym-Equipment/horizon_tr5_tread.jpg",
-            "/images/products/Gym-Equipment/horizon_tr5-1.jpg",
-            "/images/products/Gym-Equipment/horizon_tr5-2.jpg",
-          ],
-        },
-        {
-          name: "Matrix FTR30 Functional Trainer",
-          description: "Durable weight plates for strength training",
-          price: 67.899,
-          category: "Gym Equipment",
-          images: [
-            "/images/products/Gym-Equipment/matrix_ftr.jpg",
-            "/images/products/Gym-Equipment/matrix_ftr30-1.jpg",
-            "/images/products/Gym-Equipment/matrix_ftr30-2.jpg",
-          ],
-        },
-
-        // Fitness Trackers
-        {
-          name: "Galaxy Fit3",
-          description: "Complete set of 5 resistance levels",
-          price: 49.99,
-          category: "Fitness Trackers",
-          images: [
-            "/images/products/Fitness-Trackers/za-galaxy-fit3.jpg",
-            "/images/products/Fitness-Trackers/za-galaxy-fit3-1.jpg",
-            "/images/products/Fitness-Trackers/za-galaxy-fit3-2.jpg",
-
-          ],
-        },
-        {
-          name: "Galaxy Watch6 (Bluetooth, 40mm)",
-          description: "Extra thick non-slip exercise mat",
-          price: 79.99,
-          category: "Fitness Trackers",
-          images: [
-            "/images/products/Fitness-Trackers/Galaxy6.jpg",
-            "/images/products/Fitness-Trackers/Galaxy6-1.jpg",
-            "/images/products/Fitness-Trackers/Galaxy6-2.jpg",
-          ],
-        },
-        {
-          name: "Galaxy Watch4",
-          description: "Compact ab wheel for core workouts",
-          price: 29.99,
-          category: "Fitness Trackers",
-          images: [
-            "/images/products/Fitness-Trackers/za-galaxy-watch4.jpg",
-            "/images/products/Fitness-Trackers/za-galaxy-watch4-1.jpg",
-            "/images/products/Fitness-Trackers/za-galaxy-watch4-2.jpg",
-          ],
-        },
-        {
-          name: "Galaxy Watch7 (Bluetooth, 44mm)",
-          description: "Durable jump rope for cardio workouts",
-          price: 15.99,
-          category: "Fitness Trackers",
-          images: [
-            "/images/products/Fitness-Trackers/za-galaxy-watch7.jpg",
-            "/images/products/Fitness-Trackers/za-galaxy-watch7-1.jpg",
-            "/images/products/Fitness-Trackers/za-galaxy-watch7-2.jpg",
-          ],
-        },
-        {
-          name: "Galaxy Watch FE (Bluetooth, 40mm)",
-          description: "High-density foam roller for recovery",
-          price: 29.99,
-          category: "Fitness Trackers",
-          images: [
-            "/images/products/Fitness-Trackers/za-galaxy-watch-fe.jpg",
-            "/images/products/Fitness-Trackers/za-galaxy-watch-fe-1.jpg",
-            "/images/products/Fitness-Trackers/za-galaxy-watch-fe-2.jpg",
-          ],
-        },
-        {
-          name: "Samsung Gear Fit",
-          description: "Durable exercise ball for core and stability",
-          price: 25.99,
-          category: "Fitness Trackers",
-          images: [
-            "/images/products/Fitness-Trackers/Galaxy_Gear_Fit.jpg",
-            "/images/products/Fitness-Trackers/Galaxy_Gear_Fit-1.jpg",
-            "/images/products/Fitness-Trackers/Galaxy_Gear_Fit-2.jpg",
-          ],
-        },
-
-        // Gym Attire
-        {
-          name: "Full-length Running Tights",
-          description: "High-quality fitness treadmill",
-          price: 4999.99,
-          category: "Gym Attire",
-          images: [
-            "/images/products/Gym-Attire/Full_length.jpg",
-            "/images/products/Gym-Attire/Full_length-1.jpg",
-            "/images/products/Gym-Attire/Full_length-2.jpg",
-          ],
-        },
-        {
-          name: "Dri_sport_Tshirt",
-          description: "Durable rowing machine for full-body workout",
-          price: 3000.99,
-          category: "Gym Attire",
-          images: [
-            "/images/products/Gym-Attire/Dri_Tshirt.jpg",
-            "/images/products/Gym-Attire/Dri_Tshirt-1.jpg",
-            "/images/products/Gym-Attire/Dri_Tshirt-2.jpg",
-          ],
-        },
-        {
-          name: "2-in-1 Running Shorts",
-          description: "Heavy-duty power rack for strength training",
-          price: 799.99,
-          category: "Gym Attire",
-          images: [
-            "/images/products/Gym-Attire/2-in-1 Running Shorts.jpg",
-            "/images/products/Gym-Attire/2-in-1 Running Shorts-1.jpg",
-            "/images/products/Gym-Attire/2-in-1 Running Shorts-2.jpg",
-          ],
-        },
-        {
-          name: "Quarter-zip Pullover",
-          description: "Indoor spin bike for cycling workouts",
-          price: 899.99,
-          category: "Gym Attire",
-          images: [
-            "/images/products/Gym-Attire/Quarter-zip Pullover.jpg",
-            "/images/products/Gym-Attire/Quarter-zip Pullover-1.jpg",
-            "/images/products/Gym-Attire/Quarter-zip Pullover-2.jpg",
-          ],
-        },
-        {
-          name: "Reset Full-Length Leggings",
-          description: "Easy-install pull-up bar for home use",
-          price: 99.99,
-          category: "Gym Attire",
-          images: [
-            "/images/products/Gym-Attire/Reset Full-Length Leggings.jpg",
-            "/images/products/Gym-Attire/Reset Full-Length Leggings-1.jpg",
-            "/images/products/Gym-Attire/Reset Full-Length Leggings-2.jpg",
-          ],
-        },
-        {
-          name: "Elite Compression Long Sleeve Top",
-          description: "Smith machine for safe weightlifting",
-          price: 1399.99,
-          category: "Gym Attire",
-          images: [
-            "/images/products/Gym-Attire/Elite Compression Long Sleeve Top.jpg",
-            "/images/products/Gym-Attire/Elite Compression Long Sleeve Top-1.jpg",
-            "/images/products/Gym-Attire/Elite Compression Long Sleeve Top-2.jpg",
-          ],
-        },
-      ],
     };
   },
+
   computed: {
+    // Map Vuex state to access products from store
+    ...mapState({
+      store: state => state.store // Assuming the products are stored in `state.products`
+    }),
+
     filteredProducts() {
+      if (!this.store) return []; // Prevent errors if data is not yet available
+
       let filtered = this.activeTab === "All Products"
-        ? this.products
-        : this.products.filter(product => product.category === this.activeTab);
+        ? this.store
+        : this.store.filter(store => store.category === this.activeTab);
+
+        
 
       switch (this.sortOption) {
         case "priceLow":
@@ -366,27 +172,30 @@ export default {
         return { paragraph: "", details: [] };
       }
 
-      // Splitting description on ". " assuming structured data
       const detailsArray = this.selectedProduct.description.split(". ");
-      const paragraph = detailsArray.shift(); // First part as a paragraph
+      const paragraph = detailsArray.shift();
       const details = detailsArray
         .map(detail => {
           const [label, value] = detail.split(":").map(item => item.trim());
           return label && value ? { label, value } : null;
         })
-        .filter(item => item); // Remove null values
+        .filter(item => item);
 
       return { paragraph, details };
     }
   },
+
   methods: {
+    // Map Vuex actions to methods
+    ...mapActions(['getProducts']),
+
     updateProductDisplay(tab) {
       this.activeTab = tab;
     },
 
     addToCart(productName) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const product = this.products.find(item => item.name === productName);
+      const product = this.store.find(item => item.name === productName);
       if (product) {
         let existingProduct = cart.find(item => item.name === product.name);
         if (existingProduct) {
@@ -416,9 +225,15 @@ export default {
       this.toastMessage = message;
       setTimeout(() => (this.toastMessage = ""), 3000);
     }
+  },
+
+  // Fetch product data from Vuex store when the component is created
+  created() {
+    this.getProducts();
   }
 };
 </script>
+
 
 
 <style scoped>
@@ -627,6 +442,7 @@ h1 {
     opacity: 0;
     transform: translate(-50%, -60%);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%);
@@ -683,6 +499,7 @@ button:hover {
 .modal-left h2 {
   margin-bottom: 20px;
 }
+
 .modal-left span {
   margin-top: 20px;
   font-size: 18px;

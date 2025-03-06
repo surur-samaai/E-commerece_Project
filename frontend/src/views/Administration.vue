@@ -35,71 +35,31 @@
     </div>
 </template>
 <script>
-import ProductModal from "@/components/ProductModal.vue";
+import ProductModal from "../components/ProductModal.vue"; // Adjust the path
 
 export default {
     name: "AdminView",
-    components: {
-        ProductModal,
+  components: {
+    ProductModal,
+  },
+  data() {
+    return {
+      isModalOpen: false,
+      modalProduct: {},
+      selectedProduct: null, // Product to edit
+    };
+  },
+  methods: {
+    openModal(product) {
+      this.modalProduct = product
+        ? { ...product }
+        : { name: "", description: "", price: "", images: "", category: "" };
+      this.isModalOpen = true;
     },
-    data() {
-        return {
-            products: [],
-            selectedProduct: null,
-            isModalVisible: false,
-        };
+    closeModal() {
+      this.isModalOpen = false;
     },
-    methods: {
-
-        async fetchProducts() {
-            try {
-                await this.$store.dispatch("fetchProducts");
-                this.products = this.$store.state.products;
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        },
-        showAddProductModal() {
-            this.selectedProduct = { id: null, title: "", price: "", image: "" };
-            this.isModalVisible = true;
-        },
-        editProduct(product) {
-            this.selectedProduct = { ...product };
-            this.isModalVisible = true;
-        },
-
-        async deleteProduct(productId) {
-            try {
-                await this.$store.dispatch("deleteProduct", productId);
-                this.products = this.products.filter((p) => p.id !== productId);
-            } catch (error) {
-                console.error("Error deleting product:", error);
-            }
-        },
-
-        async saveProduct(product) {
-            try {
-                if (product.id) {
-
-                    await this.$store.dispatch("updateProduct", product);
-                } else {
-
-                    await this.$store.dispatch("addProduct", product);
-                    this.products.push(product);
-                }
-                this.closeModal();
-            } catch (error) {
-                console.error("Error saving product:", error);
-            }
-        },
-        closeModal() {
-            this.isModalVisible = false;
-            this.selectedProduct = null;
-        },
-    },
-    mounted() {
-        this.fetchProducts();
-    },
+  },
 };
 </script>
 
@@ -220,13 +180,13 @@ nav a:hover {
 }
 
 .product .price {
- font-weight: bold;
- color: crimson;
+    font-weight: bold;
+    color: crimson;
 }
 
 .product .category {
     font-weight: bold;
-    font-size:120%;
+    font-size: 120%;
 }
 
 .product button {

@@ -28,22 +28,51 @@
                 </div>
             </div>
             <div class="categories">
-                <div class="category" v-for="category in categories" :key="category.title">
-                    <img :src="category.image" :alt="category.alt" />
-                    <h2>{{ category.title }}</h2>
-                    <p>{{ category.description }}</p>
+                <div class="category">
+                    <img src="https://github.com/seranger/E-commerece_Project/blob/main/frontend/public/images/Categories/category-gym%20equipment.jpg?raw=true"
+                        alt="Equipment Image" />
+                    <h2>Gym Equipment</h2>
+                    <p>Professional-grade fitness equipment</p>
+                </div>
+                <div class="category">
+                    <img src="https://github.com/seranger/E-commerece_Project/blob/main/frontend/public/images/Categories/category-apparl.jpg?raw=true"
+                        alt="Apparel Image" />
+                    <h2>Gym Apparel</h2>
+                    <p>Performance workout clothing</p>
+                </div>
+                <div class="category">
+                    <img src="https://github.com/seranger/E-commerece_Project/blob/main/frontend/public/images/Categories/acccesories_category.jpg?raw=true"
+                        alt="Accessories Image" />
+                    <h2>Accessories</h2>
+                    <p>There's something new every month</p>
+                </div>
+                <div class="category">
+                    <img src="https://github.com/seranger/E-commerece_Project/blob/main/frontend/public/images/Categories/category-training.jpg?raw=true"
+                        alt="Training Image" />
+                    <h2>Personal Training</h2>
+                    <p>Expert fitness guidance</p>
                 </div>
             </div>
-            <h2 class="tittle">Featured Products</h2>
-            <div class="featured-products">
-                <div class="product" v-for="product in products" :key="product.product_id">  <img :src="product.image_url" alt="Product Image" />  <h3>{{ product.name }}</h3>  <p>R{{ product.price }}</p>
+            <h2 class="title">Featured Products</h2>
+            <div v-if="isLoading">
+                <p>Loading...</p>
+            </div>
+            <div v-else class="featured-products">
+
+                <div class="product" v-for="product in products.slice(0, 4)" :key="product.name">
+                    <img :src="product.image_url.images[0]" alt="Product Image" />
+                    <h3>{{ product.name }}</h3>
+                    <p>R{{ product.price }}</p>
                     <button @click="Login">Buy Now</button>
                 </div>
+
             </div>
-            <h2 class="tittle">Meet Our Trainers</h2>
+            <h2 class="trainers">Meet Our Trainers</h2>
         </div>
+
         <div class="wrapper">
-            <div class="card" v-for="trainer in trainers" :key="trainer.trainer_id">  <img :src="trainer.image_url" :alt="trainer.name" @click="openModal(trainer)" />  </div>
+            <div class="card" v-for="trainer in trainers" :key="trainer.trainer_id"> <img :src="trainer.image_url"
+                    :alt="trainer.name" @click="openModal(trainer)" /> </div>
         </div>
 
         <TrainerDetails v-if="selectedTrainer" :trainer="selectedTrainer" :isVisible="isModalVisible"
@@ -98,32 +127,7 @@ export default {
         return {
             selectedTrainer: null,
             isModalVisible: false,
-            categories: [ // Keeping your categories data as it is
-                {
-                    image: "/images/Categories/category-gym equipment.jpg",
-                    alt: "Equipment Image",
-                    title: "Gym Equipment",
-                    description: "Professional-grade fitness equipment"
-                },
-                {
-                    image: "/images/Categories/category-apparl.jpg",
-                    alt: "Apparel Image",
-                    title: "Gym Apparel",
-                    description: "Performance workout clothing"
-                },
-                {
-                    image: "/images/Categories/acccesories_category.jpg",
-                    alt: "Rental Image",
-                    title: "Accessories",
-                    description: "There's something new every month"
-                },
-                {
-                    image: "/images/Categories/category-training.jpg",
-                    alt: "Training Image",
-                    title: "Personal Training",
-                    description: "Expert fitness guidance"
-                }
-            ],
+            isLoading: true,  // Add loading state
         };
     },
     computed: {
@@ -159,10 +163,11 @@ export default {
     mounted() {
         // Dispatch Vuex actions when the component is mounted to fetch data
         this.getProducts(); // Dispatch the 'getProducts' action to fetch product data
-        this.getPersonalTrainers(); // Dispatch the 'getPersonalTrainers' action to fetch trainer data
+        this.getPersonalTrainers();
+        this.isLoading = false; // Dispatch the 'getPersonalTrainers' action to fetch trainer data
 
         console.log("Products data in home.vue:", this.products);
-    console.log("Trainers data in home.vue:", this.trainers);
+        console.log("Trainers data in home.vue:", this.trainers);
     }
 };
 </script>
@@ -175,7 +180,12 @@ export default {
     padding: 0;
 }
 
-.tittle {
+.title {
+    margin-left: 40px;
+    color: white;
+}
+
+.trainers {
     margin-left: 40px;
     color: white;
 }
@@ -254,7 +264,7 @@ nav a:hover {
 .hero {
     width: 100%;
     height: 100vh;
-    background-image: url("/public/images/Displays/home-hero.jpg");
+    background-image: url("https://github.com/seranger/E-commerece_Project/blob/main/frontend/public/images/Displays/home-hero.jpg?raw=true");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

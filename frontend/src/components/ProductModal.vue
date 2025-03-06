@@ -20,32 +20,39 @@
 
 <script>
 export default {
-    name: "ProductModalView",
-    props: {
-        product: {
-            type: Object,
-            required: true
-        }
+  name: "ProductModalView",
+  props: {
+    product: {
+      type: Object,
+      required: true,
     },
-    data() {
-        return {
-            localProduct: { ...this.product }
-        };
+  },
+  data() {
+    return {
+      localProduct: { ...this.product },
+    };
+  },
+  methods: {
+    save() {
+      if (this.localProduct.product_id) {
+        // Update existing product
+        this.$store.dispatch("updateProduct", this.localProduct);
+      } else {
+        // Add new product
+        this.$store.dispatch("addProduct", this.localProduct);
+      }
+      this.$emit("close"); // Close modal after save
     },
-    methods: {
-        save() {
-            this.$emit("save", this.localProduct);
-        }
+  },
+  watch: {
+    product: {
+      handler(newProduct) {
+        this.localProduct = { ...newProduct };
+      },
+      deep: true,
+      immediate: true,
     },
-    watch: {
-        product: {
-            handler(newProduct) {
-                this.localProduct = { ...newProduct };
-            },
-            deep: true,
-            immediate: true
-        }
-    }
+  },
 };
 </script>
 <style scoped>
