@@ -39,8 +39,8 @@
 
       <div class="plans" v-if="plans">
                 <div class="plan" v-for="plan in plans" :key="plan.subscription_id" :class="{ active: selectedPlan === plan.name }">
-                    <h2>💪 {{ plan.name }}</h2>
-                    <p class="price">R{{ plan.price }}</p>
+                    <h2>{{ plan.name }}</h2>
+                    <p class="price">R{{ plan.price }} (p/m)</p>
                     <ul>
                         <li v-if="plan.benefit_1">• {{ plan.benefit_1 }}</li>
                         <li v-if="plan.benefit_2">• {{ plan.benefit_2 }}</li>
