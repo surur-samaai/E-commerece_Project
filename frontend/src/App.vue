@@ -1,6 +1,7 @@
 <template>
   <router-view /> 
 </template>
+
 <script>
 import router from './router/index.js'; 
 
@@ -14,6 +15,12 @@ export default {
 *{
   margin: 0;
   padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 </style>
 

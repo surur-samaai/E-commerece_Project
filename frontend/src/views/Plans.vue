@@ -27,31 +27,41 @@
 
     <div class="container">
       <div class="duration-switch">
-        <button
-          v-for="duration in durations"
-          :key="duration.id"
-          :class="{ active: activeDuration === duration.id }"
-          @click="setActiveDuration(duration.id)"
-        >
-          {{ duration.label }}
-        </button>
-      </div>
+    <button
+        v-for="duration in durations"
+        :key="duration.id"
+        :class="{ active: activeDuration === duration.id }"
+        @click="setActiveDuration(duration.id)"
+    >
+        {{ duration.label }}
+    </button>
+</div>
 
-      <div class="plans">
-        <div
-          class="plan"
-          v-for="plan in plans"
-          :key="plan.name"
-          :class="{ active: selectedPlan === plan.name }"
+      <div class="plans" v-if="plans">
+                <div class="plan" v-for="plan in plans" :key="plan.subscription_id" :class="{ active: selectedPlan === plan.name }">
+                    <h2>💪 {{ plan.name }}</h2>
+                    <p class="price">R{{ plan.price }}</p>
+                    <ul>
+                        <li v-if="plan.benefit_1">• {{ plan.benefit_1 }}</li>
+                        <li v-if="plan.benefit_2">• {{ plan.benefit_2 }}</li>
+                        <li v-if="plan.benefit_3">• {{ plan.benefit_3 }}</li>
+                        <li v-if="plan.benefit_4">• {{ plan.benefit_4 }}</li>
+                        <li v-if="plan.benefit_5">• {{ plan.benefit_5 }}</li>
+                        <li v-if="plan.benefit_6">• {{ plan.benefit_6 }}</li>
+                        <li v-if="plan.benefit_7">• {{ plan.benefit_7 }}</li>
+                    </ul>
+                    <button class="select-plan" @click="selectPlan(plan.name)">Select Plan</button>
+                    <button
+            v-if="selectedPlan === plan.name"  class="continue-to-cart"
+            @click="continueToCart"
         >
-          <h2>{{ plan.name }}</h2>
-          <p class="price">{{ plan.price }}</p>
-          <ul>
-            <li v-for="feature in plan.features" :key="feature">{{ feature }}</li>
-          </ul>
-          <button class="select-plan" @click="selectPlan(plan.name)">Select Plan</button>
-        </div>
-      </div>
+            Continue to Pay
+        </button>
+                </div>
+            </div>
+            <div v-else>
+                <p>Loading subscription plans...</p>
+            </div>
     </div>
 
     <h1>Why Choose PrimeFit</h1>
@@ -101,40 +111,77 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: "PlansView",
-  data() {
-    return {
-      activeDuration: '12-month',
-      selectedPlan: null,
-      durations: [
-        { id: '12-month', label: '12 Months' },
-        { id: '24-month', label: '24 Months' },
-        { id: '36-month', label: '36 Months' },
-      ],
-    };
-  },
-  computed: {
-    ...mapGetters(['plans']),
-  },
-  methods: {
-    setActiveDuration(duration) {
-      this.activeDuration = duration;
-      this.updatePlans();
+    name: "PlansView",
+    data() {
+        return {
+          activeDuration: '36 months', // Initial activeDuration is '12' (number string)
+        selectedPlan: null,
+        durations: [
+            { id: '12 months', label: '12 Months' },
+            { id: '24 months', label: '24 Months' }, 
+            { id: '36 months', label: '36 Months' }, 
+        ],
+            reasons: [ // Define reasons data here
+                { icon: '🚚', title: 'Free Delivery', description: 'We deliver and install all equipment' },
+                { icon: '🔧', title: 'Regular Maintenance', description: 'Keep the equipment in perfect condition' },
+                { icon: '🔄', title: 'Flexible', description: 'Exchange equipment whenever you want' },
+                { icon: '🤝', title: 'Expert Support', description: 'Get help from our fitness specialists' },
+            ],
+        };
     },
-    selectPlan(planName) {
-      this.selectedPlan = planName;
+    computed: {
+    ...mapState({
+        allPlans: state => {
+            console.log("mapState - allPlans:", state.subscriptions);
+            return state.subscriptions;
+        },
+    }),
+    plans() {
+        console.log("computed plans() - allPlans:", this.allPlans);
+        if (!this.allPlans) {
+            console.log("computed plans() - allPlans is null, returning null");
+            return null;
+        }
+        const filteredPlans = this.allPlans.filter(plan => {
+            console.log("filter - plan.duration_months:", plan.duration_months, ", activeDuration:", this.activeDuration); // Log comparison values
+            return plan.duration_months === this.activeDuration; // Direct comparison - NO + ' months'
+        });
+        console.log("computed plans() - filteredPlans:", filteredPlans);
+        return filteredPlans;
     },
-    updatePlans() {
-      // This method can be adjusted if you want to change prices or features based on duration
-      // For now, we will just use the data fetched from the API
+},
+    methods: {
+      ...mapActions(['getSubscriptions']),
+      setActiveDuration(durationId) { // Parameter is now named `durationId`
+    console.log("setActiveDuration - durationId:", durationId); // Log durationId
+    this.activeDuration = durationId; // Directly set durationId
+    this.updatePlans();
+},
+        selectPlan(planName) {
+            this.selectedPlan = planName;
+        },
+
+        continueToCart() { // New continueToCart method
+            // Check if user is logged in (assuming Vuex for auth)
+            if (this.$store.state.auth.isLoggedIn) { // Adjust path if your auth state is different
+                // User is logged in, go to cart directly
+                this.$router.push('/payment'); // Replace '/cart' with your actual cart route path
+            } else {
+                // User is NOT logged in, go to login page first
+                this.$router.push("/login"); // Replace '/login' with your actual login route path
+            }
+        },
+        updatePlans() {
+            // Logic for duration-based plan updates (if needed)
+        },
     },
-  },
-  mounted() {
-    this.$store.dispatch('fetchPlans'); // Fetch plans when component is mounted
-  },
+    mounted() {
+        console.log("mounted() - calling getSubscriptions()"); // Log before dispatching action
+        this.getSubscriptions();
+    },
 };
 </script>
 
@@ -266,21 +313,23 @@ nav a:hover {
 
 .plans {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+    justify-content: center;
+    gap: 20px;
 }
 
 .plan {
   background-color: white;
-  border: 2px solid crimson;
-  border-radius: 8px;
-  text-align: center;
-  padding: 20px;
-  margin: 15px;
-  width: 30%;
-  height: 300px;
-  transition: background-color 0.3s;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid crimson;
+    border-radius: 8px;
+    text-align: center;
+    padding: 20px;
+    margin: 15px;
+    width: 30%; /* Plan card width - should be controlling width */
+    display: flex; /* Flexbox for vertical layout */
+    flex-direction: column;
+    position: relative;
+    padding-bottom: 100px; /* Sufficient bottom padding */
+    box-sizing: border-box; /* Add box-sizing to .plan as well, for consistency */ 
 }
 
 .plan.active {
@@ -319,18 +368,6 @@ label {
   padding: 10px 20px;
 }
 
-.select-plan {
-  background-color: #333;
-  color: white;
-  padding: 10px 20px;
-  margin-top: 10%;
-  border: none;
-  width: 100%;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s, color 0.3s;
-}
 
 .plan.active .select-plan  {
   background-color: crimson;
@@ -356,29 +393,52 @@ label {
 
 .why-choose {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 20px;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px auto; 
+    max-width: 1200px; 
+    width: 90%; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 20px; 
 }
 
 .why-choose div {
   background-color: #f9f9f9;
-  border: 2px solid crimson;
-  border-radius: 8px;
-  padding: 15px;
-  margin: 10px;
-  width: 300px;
-  height: 100px;
-  text-align: center;
-  display: block;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+    border: 2px solid crimson;
+    border-radius: 8px;
+    padding: 20px; 
+    margin: 10px;
+    width: 300px; 
+    text-align: center;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    box-sizing: border-box;
+    word-wrap: break-word; 
 }
 
 .why-choose div:hover {
   transform: scale(1.05);
+}
+
+
+.why-choose div span { 
+    display: block; 
+    margin-bottom: 10px;
+}
+
+.why-choose div h2 {
+    font-size: 1.4em; 
+    margin-bottom: 5px; 
+}
+
+.why-choose div p.text { 
+    font-size: 1em; 
+    line-height: 1.4; 
 }
 
 .footer {
@@ -460,5 +520,34 @@ label {
 
 .footer-bottom p {
   margin: 0;
+}
+
+.continue-to-cart {
+    background-color: crimson; /* Crimson color for "Continue to Cart" */
+}
+
+.select-plan,
+.continue-to-cart { /* Apply to both buttons together */
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 0; /* Ensure no top margin */
+    margin-bottom: 0; /* Ensure no bottom margin */
+    border: none;
+    width: 100%; /* Buttons should take 100% of .plan's width */
+    max-width: 100%; /* Reinforce max width to avoid exceeding container */  
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    position: absolute; /* Absolutely positioned */
+    bottom: 20px;
+    left: 0px;
+    right: 20px;
+    box-sizing: border-box; /* Add box-sizing to buttons too */  
+}
+
+.continue-to-cart:hover {
+    background-color: #ff4d6d; /* Slightly lighter crimson on hover */
 }
 </style>
