@@ -481,4 +481,111 @@ nav a:hover {
 .footer-bottom p {
     margin: 0;
 }
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .hero .hero-text {
+        max-width: 70%;
+    }
+
+    .hero h1 {
+        font-size: 2em;
+    }
+
+    .hero p {
+        font-size: 1em;
+    }
+
+    .navbar-right button {
+        font-size: 1em;
+    }
+
+    .footer-section {
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-left {
+        margin-bottom: 10px;
+    }
+
+    .hero {
+        height: 60vh;
+    }
+
+    .hero .hero-text {
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .hero h1 {
+        font-size: 1.5em;
+    }
+
+    .hero p {
+        font-size: 0.9em;
+    }
+
+    .categories,
+    .featured-products {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .category,
+    .product {
+        margin-bottom: 40px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-section {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.2em;
+    }
+
+    .hero p {
+        font-size: 0.8em;
+    }
+
+    .hero button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    .navbar-right button {
+        font-size: 0.9em;
+    }
+
+    .footer-section h2,
+    .footer-section h3 {
+        font-size: 1.4em;
+    }
+
+    .footer-section p {
+        font-size: 0.9em;
+    }
+
+    .footer-section ul li a {
+        font-size: 1em;
+    }
+
+    .social-links li i {
+        font-size: 1.2em;
+    }
+}
 </style>
