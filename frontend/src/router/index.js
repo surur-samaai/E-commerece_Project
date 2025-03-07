@@ -28,7 +28,7 @@ const routes = [
   },
   { path: '/booking', 
     name:Booking,
-    component: Booking 
+    component: Booking,
   },
   { path: '/shop', 
     name:Shop,
@@ -56,7 +56,7 @@ const routes = [
   },
   { path: '/tutorials', 
     name: 'Tutorials',
-    component: Tutorials 
+    component: Tutorials
   },
   { path: '/trainerdetails', 
     name: TrainerDetails,

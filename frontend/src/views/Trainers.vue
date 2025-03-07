@@ -33,6 +33,9 @@
                 <router-link :to="{ name: 'Tutorials' }">
                     <button class="button">Watch Tutorials</button>
                 </router-link>
+                <br>
+                <br>
+                <a class="booking" href="./booking">Book Session</a>
             </div>
         </div>
         <footer class="footer">
@@ -295,6 +298,22 @@ nav a:hover {
   cursor: pointer;
   font-weight: bold;
   transition: background 0.3s;
+}
+
+.booking {
+  background: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.booking:hover{
+  background: crimson;
+  color: black;
 }
 
 .button:hover {
