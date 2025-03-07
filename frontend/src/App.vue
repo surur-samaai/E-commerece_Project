@@ -17,7 +17,7 @@ export default {
   padding: 0;
 }
 
-*,
+
 *::before,
 *::after {
   box-sizing: border-box;

@@ -17,6 +17,7 @@
         <button class="login-btn">Log In</button>
       </div>
     </header>
+
     <section class="top">
       <h1>Choose Your Perfect Subscription Plan</h1>
       <p>
@@ -27,41 +28,41 @@
 
     <div class="container">
       <div class="duration-switch">
-    <button
-        v-for="duration in durations"
-        :key="duration.id"
-        :class="{ active: activeDuration === duration.id }"
-        @click="setActiveDuration(duration.id)"
-    >
-        {{ duration.label }}
-    </button>
-</div>
-
-      <div class="plans" v-if="plans">
-                <div class="plan" v-for="plan in plans" :key="plan.subscription_id" :class="{ active: selectedPlan === plan.name }">
-                    <h2>{{ plan.name }}</h2>
-                    <p class="price">R{{ plan.price }} (p/m)</p>
-                    <ul>
-                        <li v-if="plan.benefit_1">• {{ plan.benefit_1 }}</li>
-                        <li v-if="plan.benefit_2">• {{ plan.benefit_2 }}</li>
-                        <li v-if="plan.benefit_3">• {{ plan.benefit_3 }}</li>
-                        <li v-if="plan.benefit_4">• {{ plan.benefit_4 }}</li>
-                        <li v-if="plan.benefit_5">• {{ plan.benefit_5 }}</li>
-                        <li v-if="plan.benefit_6">• {{ plan.benefit_6 }}</li>
-                        <li v-if="plan.benefit_7">• {{ plan.benefit_7 }}</li>
-                    </ul>
-                    <button class="select-plan" @click="selectPlan(plan.name)">Select Plan</button>
-                    <button
-            v-if="selectedPlan === plan.name"  class="continue-to-cart"
-            @click="continueToCart"
+        <button
+          v-for="duration in durations"
+          :key="duration.id"
+          :class="{ active: activeDuration === duration.id }"
+          @click="setActiveDuration(duration.id)"
         >
-            Continue to Pay
+          {{ duration.label }}
         </button>
-                </div>
-            </div>
-            <div v-else>
-                <p>Loading subscription plans...</p>
-            </div>
+      </div>
+
+      <div class="plans" v-if="plans.length">
+        <div
+          class="plan"
+          v-for="plan in plans"
+          :key="plan.subscription_id"
+          :class="{ active: selectedPlan === plan.name }"
+        >
+          <h2>{{ plan.name }}</h2>
+          <p class="price">R{{ plan.price }} (p/m)</p>
+          <ul>
+            <li v-for="(feature, idx) in plan.features.split(', ')" :key="idx">✔️ {{ feature }}</li>
+          </ul>
+          <button class="select-plan" @click="selectPlan(plan.name)">Select Plan</button>
+          <button
+            v-if="selectedPlan === plan.name"
+            class="continue-to-cart"
+            @click="continueToCart"
+          >
+            Continue to Pay
+          </button>
+        </div>
+      </div>
+      <div v-else>
+        <p>Loading subscription plans...</p>
+      </div>
     </div>
 
     <h1>Why Choose PrimeFit</h1>
@@ -114,74 +115,48 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-    name: "PlansView",
-    data() {
-        return {
-          activeDuration: '36 months', // Initial activeDuration is '12' (number string)
-        selectedPlan: null,
-        durations: [
-            { id: '12 months', label: '12 Months' },
-            { id: '24 months', label: '24 Months' }, 
-            { id: '36 months', label: '36 Months' }, 
-        ],
-            reasons: [ // Define reasons data here
-                { icon: '🚚', title: 'Free Delivery', description: 'We deliver and install all equipment' },
-                { icon: '🔧', title: 'Regular Maintenance', description: 'Keep the equipment in perfect condition' },
-                { icon: '🔄', title: 'Flexible', description: 'Exchange equipment whenever you want' },
-                { icon: '🤝', title: 'Expert Support', description: 'Get help from our fitness specialists' },
-            ],
-        };
-    },
-    computed: {
+  name: "PlansView",
+  data() {
+    return {
+      activeDuration: '36 months', // Initial active duration
+      selectedPlan: null,
+      durations: [
+        { id: '12 months', label: '12 Months' },
+        { id: '24 months', label: '24 Months' },
+        { id: '36 months', label: '36 Months' },
+      ],
+      reasons: [
+        { icon: '🚚', title: 'Free Delivery', description: 'We deliver and install all equipment' },
+        { icon: '🔧', title: 'Maintenance', description: 'Keep the equipment in perfect condition' },
+        { icon: '🔄', title: 'Flexible', description: 'Exchange equipment whenever you want' },
+        { icon: '🤝', title: 'Expert Support', description: 'Get help from our fitness specialists' },
+      ],
+    };
+  },
+  computed: {
     ...mapState({
-        allPlans: state => {
-            console.log("mapState - allPlans:", state.subscriptions);
-            return state.subscriptions;
-        },
+      allPlans: state => state.subscriptions,
     }),
     plans() {
-        console.log("computed plans() - allPlans:", this.allPlans);
-        if (!this.allPlans) {
-            console.log("computed plans() - allPlans is null, returning null");
-            return null;
-        }
-        const filteredPlans = this.allPlans.filter(plan => {
-            console.log("filter - plan.duration_months:", plan.duration_months, ", activeDuration:", this.activeDuration); // Log comparison values
-            return plan.duration_months === this.activeDuration; // Direct comparison - NO + ' months'
-        });
-        console.log("computed plans() - filteredPlans:", filteredPlans);
-        return filteredPlans;
+      if (!this.allPlans) return [];
+      return this.allPlans.filter(plan => plan.duration_months === this.activeDuration);
     },
-},
-    methods: {
-      ...mapActions(['getSubscriptions']),
-      setActiveDuration(durationId) { // Parameter is now named `durationId`
-    console.log("setActiveDuration - durationId:", durationId); // Log durationId
-    this.activeDuration = durationId; // Directly set durationId
-    this.updatePlans();
-},
-        selectPlan(planName) {
-            this.selectedPlan = planName;
-        },
-
-        continueToCart() { // New continueToCart method
-            // Check if user is logged in (assuming Vuex for auth)
-            if (this.$store.state.auth.isLoggedIn) { // Adjust path if your auth state is different
-                // User is logged in, go to cart directly
-                this.$router.push('/payment'); // Replace '/cart' with your actual cart route path
-            } else {
-                // User is NOT logged in, go to login page first
-                this.$router.push("/login"); // Replace '/login' with your actual login route path
-            }
-        },
-        updatePlans() {
-            // Logic for duration-based plan updates (if needed)
-        },
+  },
+  methods: {
+    ...mapActions(['getSubscriptions']),
+    setActiveDuration(durationId) {
+      this.activeDuration = durationId;
     },
-    mounted() {
-        console.log("mounted() - calling getSubscriptions()"); // Log before dispatching action
-        this.getSubscriptions();
+    selectPlan(planName) {
+      this.selectedPlan = planName;
     },
+    continueToCart() {
+      this.$router.push('/payment'); // Navigate to payment page
+    },
+  },
+  mounted() {
+    this.getSubscriptions(); // Fetch subscription plans on mount
+  },
 };
 </script>
 
@@ -391,6 +366,33 @@ label {
   padding: 5px 0;
 }
 
+.continue-to-cart {
+    background-color: crimson; /* Crimson color for "Continue to Cart" */
+}
+
+.select-plan,
+.continue-to-cart { /* Apply to both buttons together */
+  background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px; /* Add some margin for spacing */
+    border: none;
+    width: calc(100% - 40px); /* Adjust width to account for left and right padding */
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    position: absolute; /* Absolutely positioned */
+    bottom: 20px; /* Position from the bottom */
+    left: 20px; /* Position from the left */
+    right: 20px; /* Position from the right */
+    
+}  
+
+.continue-to-cart:hover {
+    background-color: #ff4d6d; /* Slightly lighter crimson on hover */
+}
+
 .why-choose {
   display: flex;
     flex-direction: row;
@@ -399,7 +401,6 @@ label {
     max-width: 1200px; 
     width: 90%; 
     justify-content: center; 
-    flex-wrap: wrap; 
     gap: 20px; 
 }
 
@@ -522,32 +523,4 @@ label {
   margin: 0;
 }
 
-.continue-to-cart {
-    background-color: crimson; /* Crimson color for "Continue to Cart" */
-}
-
-.select-plan,
-.continue-to-cart { /* Apply to both buttons together */
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    margin-top: 0; /* Ensure no top margin */
-    margin-bottom: 0; /* Ensure no bottom margin */
-    border: none;
-    width: 100%; /* Buttons should take 100% of .plan's width */
-    max-width: 100%; /* Reinforce max width to avoid exceeding container */  
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-    position: absolute; /* Absolutely positioned */
-    bottom: 20px;
-    left: 0px;
-    right: 20px;
-    box-sizing: border-box; /* Add box-sizing to buttons too */  
-}
-
-.continue-to-cart:hover {
-    background-color: #ff4d6d; /* Slightly lighter crimson on hover */
-}
 </style>

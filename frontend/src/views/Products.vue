@@ -22,7 +22,7 @@
       <h1>Fitness Equipment</h1>
       <div class="top-nav">
         <div class="tabs">
-          <button v-for="(tab, index) in tabs" :key="index" @click="updateProductDisplay(tab)"
+          <button v-for="tab in tabs" :key="tab" @click="updateProductDisplay(tab)"
             :class="{ active: activeTab === tab }">
             {{ tab }}
           </button>
@@ -155,7 +155,7 @@ export default {
         ? this.store
         : this.store.filter(store => store.category === this.activeTab);
 
-        
+        console.log(filtered);
 
       switch (this.sortOption) {
         case "priceLow":
@@ -233,8 +233,6 @@ export default {
   }
 };
 </script>
-
-
 
 <style scoped>
 #body {
