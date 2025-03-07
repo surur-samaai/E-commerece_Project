@@ -13,7 +13,18 @@ export default createStore({
         orderItems: null,
         orders: null,
         subscriptions: null,
-        workoutVideos: null
+        workoutVideos: null,
+
+        isLoadingBookings: false,
+        bookingError: null,
+
+        // --- CRUD OPERATION LOADING/ERROR STATES FOR BOOKINGS ---
+        isAddingBooking: false,
+        addBookingError: null,
+        isUpdatingBooking: false,
+        updateBookingError: null,
+        isDeletingBooking: false,
+        deleteBookingError: null,
 
     },
     getters: {
@@ -53,6 +64,50 @@ export default createStore({
         setWorkoutVideos(state, workoutVideos){
             state.workoutVideos = workoutVideos
           },
+          SET_LOADING_BOOKINGS(state, isLoading) { 
+            state.isLoadingBookings = isLoading;
+            state.bookingError = null; 
+        },
+        SET_BOOKING_ERROR(state, error) {     
+            state.bookingError = error;
+            state.isLoadingBookings = false; 
+        },
+        CLEAR_BOOKING_ERROR(state) {         
+            state.bookingError = null;
+        },
+        SET_ADDING_BOOKING_LOADING(state, isLoading) {
+          state.isAddingBooking = isLoading;
+          state.addBookingError = null;
+      },
+      SET_ADDING_BOOKING_ERROR(state, error) {
+          state.addBookingError = error;
+          state.isAddingBooking = false;
+      },
+      CLEAR_ADDING_BOOKING_ERROR(state) {
+          state.addBookingError = null;
+      },
+      SET_UPDATING_BOOKING_LOADING(state, isLoading) {
+          state.isUpdatingBooking = isLoading;
+          state.updateBookingError = null;
+      },
+      SET_UPDATING_BOOKING_ERROR(state, error) {
+          state.updateBookingError = error;
+          state.isUpdatingBooking = false;
+      },
+      CLEAR_UPDATING_BOOKING_ERROR(state) {
+          state.updateBookingError = null;
+      },
+      SET_DELETING_BOOKING_LOADING(state, isLoading) {
+          state.isDeletingBooking = isLoading;
+          state.deleteBookingError = null;
+      },
+      SET_DELETING_BOOKING_ERROR(state, error) {
+          state.deleteBookingError = error;
+          state.isDeletingBooking = false;
+      },
+      CLEAR_DELETING_BOOKING_ERROR(state) {
+          state.deleteBookingError = null;
+      },
     },
     actions: {
  //make function to fetch data
@@ -369,14 +424,19 @@ try{
 }
   },
 
-  async getBookings(context) {
+  async getBookings(context) {  // <-- UPDATE getBookings ACTION
+    context.commit('SET_LOADING_BOOKINGS', true); // Start loading
+    context.commit('CLEAR_BOOKING_ERROR');        // Clear previous errors
     try {
         const response = await axios.get('http://localhost:3000/bookings');
         const bookingData = response.data;
         console.log("Bookings from backend:", bookingData);
         context.commit('setBookings', bookingData);
+        context.commit('SET_LOADING_BOOKINGS', false); // Stop loading on success
     } catch (error) {
-        console.error('Error fetching Personal Trainers:', error);
+        console.error('Error fetching Bookings:', error);
+        context.commit('SET_BOOKING_ERROR', 'Failed to fetch bookings. Please try again.'); // Set error message
+        context.commit('SET_LOADING_BOOKINGS', false); // Stop loading on error
     }
 },
 
@@ -393,44 +453,47 @@ try{
   }
   },
   //1
-  async deleteBooking(context, payload){
-   try{
-    await fetch('http://localhost:3000/bookings/'+ payload,{
-      method:'DELETE'
-    })
-    location.reload()
-} catch (error){
-    console.error('Error while deleting booking:', error)
-}
-  },
-  async addBooking(context, payload){
-    try{
-    await fetch('http://localhost:3000/bookings/',{
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body:JSON.stringify(payload)
-    })
-    location.reload()
-    } catch (error){
-        console.error('Error while adding booking:', error)
+  async deleteBooking(context, booking_id) {
+    context.commit('SET_DELETING_BOOKING_LOADING', true);
+    context.commit('CLEAR_DELETING_BOOKING_ERROR');
+    try {
+        await axios.delete(`http://localhost:3000/bookings/${booking_id}`);
+        context.commit('SET_DELETING_BOOKING_LOADING', false);
+        await context.dispatch('getBookings'); // Refresh bookings
+    } catch (error) {
+        console.error('Error deleting booking:', error);
+        context.commit('SET_DELETING_BOOKING_ERROR', 'Failed to delete booking. Please try again.');
+        context.commit('SET_DELETING_BOOKING_LOADING', false);
     }
-  },    
-  async updateBooking(context, payload){
-try{
-    await fetch('http://localhost:3000/bookings/'+ payload.booking_id,{
-      method:'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body:JSON.stringify(payload)
-    })
-    location.reload()
-} catch(error){
-    console.error('Error while updating Booking:', error)
-}
-  },
+},
+
+async addBooking(context, bookingData) {
+    context.commit('SET_ADDING_BOOKING_LOADING', true);
+    context.commit('CLEAR_ADDING_BOOKING_ERROR');
+    try {
+        await axios.post('http://localhost:3000/bookings/', bookingData);
+        context.commit('SET_ADDING_BOOKING_LOADING', false);
+        await context.dispatch('getBookings'); // Refresh bookings
+    } catch (error) {
+        console.error('Error adding booking:', error);
+        context.commit('SET_ADDING_BOOKING_ERROR', 'Failed to add booking. Please try again.');
+        context.commit('SET_ADDING_BOOKING_LOADING', false);
+    }
+},
+
+async updateBooking(context, payload) { // Payload: { booking_id, bookingData }
+    context.commit('SET_UPDATING_BOOKING_LOADING', true);
+    context.commit('CLEAR_UPDATING_BOOKING_ERROR');
+    try {
+        await axios.patch(`http://localhost:3000/bookings/${payload.booking_id}`, payload.bookingData);
+        context.commit('SET_UPDATING_BOOKING_LOADING', false);
+        await context.dispatch('getBookings'); // Refresh bookings
+    } catch (error) {
+        console.error('Error updating booking:', error);
+        context.commit('SET_UPDATING_BOOKING_ERROR', 'Failed to update booking. Please try again.');
+        context.commit('SET_UPDATING_BOOKING_LOADING', false);
+    }
+},
 
   async getLocation(context) {
     try {
