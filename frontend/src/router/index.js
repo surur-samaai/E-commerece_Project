@@ -12,7 +12,6 @@ import Trainers from '../views/Trainers.vue';
 import Tutorials from '../views/Tutorials.vue';
 import TrainerDetails from '../components/TrainerDetails.vue';
 import Administration from '../views/Administration.vue';
-import ProductModal from '../components/ProductModal.vue';
 
 const routes = [
   { path: '/',
@@ -66,11 +65,7 @@ const routes = [
   { path: '/admin', 
     name: Administration,
     component: Administration 
-  },
-  { path: '/productmodal', 
-    name: ProductModal,
-    component: ProductModal 
-  },
+  }
 ];
 
 const router = createRouter({

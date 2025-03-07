@@ -118,7 +118,7 @@ export default {
   name: "PlansView",
   data() {
     return {
-      activeDuration: '36 months', // Initial active duration
+      activeDuration: '12 months', // Initial active duration
       selectedPlan: null,
       durations: [
         { id: '12 months', label: '12 Months' },
