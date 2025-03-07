@@ -151,11 +151,15 @@ export default {
     filteredProducts() {
       if (!this.store) return []; // Prevent errors if data is not yet available
 
-      let filtered = this.activeTab === "All Products"
-        ? this.store
-        : this.store.filter(store => store.category === this.activeTab);
+  console.log("Products from store:", this.store); // Debugging
 
-        console.log(filtered);
+  let filtered = this.activeTab === "All Products"
+    ? this.store
+    : this.store.filter(store => 
+        store.categories.toLowerCase() === this.activeTab.toLowerCase()
+      );
+      
+        console.log("Filtered Products:", filtered);
 
       switch (this.sortOption) {
         case "priceLow":

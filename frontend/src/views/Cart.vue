@@ -9,7 +9,7 @@
             <img class="product-image" :src="product.image_url.images[0]" :alt="product.name" />
             <div class="product-details">
               <h2>{{ product.name }}</h2>
-              <p>Supplier: {{ product.supplier }}</p>
+              <p>In Stock: {{ product.stock }}, {{ product.supplier }}</p>
               <span>R{{ (product.price * 1000).toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
             </div>
             <div class="quantity-controls">
@@ -25,9 +25,14 @@
       <div class="wrapper">
         <div class="order-summary">
           <h2>Order Summary</h2>
+          <div v-for="(product, index) in cart" :key="index" class="summary-row">
+            <span>{{ product.name }}</span>
+          </div>
           <div class="summary-row">
-            <span>Subtotal</span>
-            <span>R{{ subtotal.toFixed(2) }}</span>
+            <span>Items</span>
+            <span>{{ totalQuantity }}</span>
+            <span>R{{ subtotal.toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
+
           </div>
           <div class="summary-row">
             <span>Delivery</span>
@@ -40,7 +45,7 @@
           <hr />
           <div class="summary-row total">
             <span>Total</span>
-            <span>R{{ total.toFixed(2) }}</span>
+            <span>R{{ subtotal.toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</span>
           </div>
           <button class="checkout" @click="proceedToCheckout">Proceed to Checkout</button>
           <div class="card-info">
@@ -70,7 +75,7 @@ export default {
   },
   computed: {
     subtotal() {
-      return this.cart.reduce((sum, product) => sum + product.price * product.quantity, 0);
+      return this.cart.reduce((sum, product) => sum + product.price * product.quantity, 0) * 1000;
     },
     tax() {
       return this.subtotal * 0.15; // 15% tax rate
@@ -81,7 +86,11 @@ export default {
     total() {
       return this.subtotal + this.delivery + this.tax;
     },
+    totalQuantity() {
+    return this.cart.reduce((sum, product) => sum + product.quantity, 0);
+  }
   },
+
   methods: {
     showToast(message) {
       this.toastMessage = message;
@@ -118,7 +127,16 @@ export default {
       if (this.cart.length === 0) {
         this.showToast("Your cart is empty! Please add items to proceed.");
       } else {
-        window.location.href = "payment.html";
+        this.$router.push({
+        path: '/payment',
+        query: {
+          subtotal: this.subtotal,
+          tax: this.tax,
+          delivery: this.delivery,
+          total: this.total,
+          totalQuantity: this.totalQuantity,
+        },
+      });
       }
     },
   },
